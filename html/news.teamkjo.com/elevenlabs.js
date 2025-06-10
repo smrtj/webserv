@@ -1,0 +1,1 @@
+/var/www/assets/elevenlabs/news-elevenlabs.js

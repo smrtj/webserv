@@ -1,0 +1,1 @@
+/var/www/assets/elevenlabs/pay-elevenlabs.js
