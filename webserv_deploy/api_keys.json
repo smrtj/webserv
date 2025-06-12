@@ -15,5 +15,5 @@
     "api_key": "API-KEY-FOR-ORDER-FORM",
     "base_url": "https://api.ipospays.com/v1"
   }
-  // Add additional domains as needed.
+
 }
