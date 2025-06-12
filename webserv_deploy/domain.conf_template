@@ -1,0 +1,48 @@
+<VirtualHost *:80>
+    ServerName [domain]
+    ServerAlias www.[domain]
+
+    DocumentRoot /var/www/html/[domain]/public_html
+
+    <Directory /var/www/html/[domain]/public_html>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    # Include global includes (ElevenLabs + CSS)
+    Include /var/www/assets/global_includes.conf
+
+    # Redirect all HTTP to HTTPS (handled by wildcard cert)
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    ErrorLog ${APACHE_LOG_DIR}/[domain]_error.log
+    CustomLog ${APACHE_LOG_DIR}/[domain]_access.log combined
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName [domain]
+    ServerAlias www.[domain]
+
+    DocumentRoot /var/www/html/[domain]/public_html
+
+    <Directory /var/www/html/[domain]/public_html>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    # Include global includes (ElevenLabs + CSS)
+    Include /var/www/assets/global_includes.conf
+
+    SSLEngine on
+    SSLCertificateFile /etc/letsencrypt/live/[domain]/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/[domain]/privkey.pem
+
+    ErrorLog ${APACHE_LOG_DIR}/[domain]_ssl_error.log
+    CustomLog ${APACHE_LOG_DIR}/[domain]_ssl_access.log combined
+</VirtualHost>
+
+End of vhost template.

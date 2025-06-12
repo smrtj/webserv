@@ -1,0 +1,34 @@
+# Base bashrc for webserv project
+# Applies domain-specific prompt themes
+# Runs fortune on login
+
+# Domain-specific PS1 prompt
+
+if [[ "$HOSTNAME" == *"smrtpayments.com"* ]]; then
+    PS1='\[\e[1;32m\]SMRT$\[\e[0m\] '
+elif [[ "$HOSTNAME" == *"teamkjo.com"* ]]; then
+    PS1='\[\e[1;35m\]TEAMKJO$\[\e[0m\] '
+elif [[ "$HOSTNAME" == *"kjo.ai"* ]]; then
+    PS1='\[\e[1;34m\]KJOAI$\[\e[0m\] '
+elif [[ "$HOSTNAME" == *"hackserv.cc"* ]] || [[ "$HOSTNAME" == *"hackserv.org"* ]]; then
+    PS1='\[\e[1;32m\]HACKSERV$\[\e[0m\] '
+elif [[ "$USER" == "root" ]]; then
+    PS1='\[\e[1;31m\]ROOT#\[\e[0m\] '
+else
+    PS1='\[\e[1;37m\]\u@\h:\w$\[\e[0m\] '
+fi
+
+# Run fortune on login
+if command -v fortune >/dev/null 2>&1; then
+    fortune
+fi
+
+# Standard aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Export PATH updates if needed
+# export PATH=$PATH:/custom/path/here
+
+End of .bashrc.
