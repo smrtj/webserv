@@ -106,4 +106,3 @@ This bundle deploys the complete multi-domain webserv stack:
 
 ---
 
-End of BUILD_MANIFEST.md.
