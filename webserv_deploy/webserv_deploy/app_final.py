@@ -10,7 +10,7 @@ CORS(app)
 def charge():
     try:
         data = request.json
-        required_fields = ['merchant_id', 'payment_token_id', 'amount']
+        required_fields = ['merchant_id', 'payment_token_id', 'amount', 'payment_method', 'shipping_zip']
         for field in required_fields:
             if field not in data:
                 return jsonify({"error": f"Missing required field: {field}"}), 400
@@ -18,15 +18,22 @@ def charge():
         merchant_id = data['merchant_id']
         payment_token_id = data['payment_token_id']
         amount = data['amount']
+        payment_method = data['payment_method']
+        shipping_zip = data['shipping_zip']
         currency = data.get('currency', 'USD')
         metadata = data.get('metadata', {})
+        metadata['shipping_zip'] = shipping_zip
+        metadata['payment_method'] = payment_method
 
         # Improved domain detection
         domain = request.headers.get("Host", socket.gethostname())
         domain = domain.split(":")[0]  # Strip port if present
 
         ipos = IPOSPayIntegration(domain)
-        response = ipos.charge_token(merchant_id, payment_token_id, amount, currency, metadata)
+        if payment_method.lower() == 'ach':
+            response = ipos.charge_ach(merchant_id, payment_token_id, amount, currency, metadata)
+        else:
+            response = ipos.charge_token(merchant_id, payment_token_id, amount, currency, metadata)
 
         return jsonify(response), 200
 

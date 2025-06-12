@@ -30,4 +30,22 @@ class IPOSPayIntegration:
         response.raise_for_status()
         return response.json()
 
-End of IPOSPayIntegration.py.
+    def charge_ach(self, merchant_id, ach_token_id, amount, currency="USD", metadata={}):
+        """Process an ACH transaction using a token from the order form."""
+        url = f"{self.base_url}/charge_ach"
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "merchant_id": merchant_id,
+            "ach_token_id": ach_token_id,
+            "amount": amount,
+            "currency": currency,
+            "metadata": metadata
+        }
+        response = requests.post(url, headers=headers, json=payload)
+        response.raise_for_status()
+        return response.json()
+
+# End of IPOSPayIntegration.py.
