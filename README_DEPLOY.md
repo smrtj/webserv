@@ -42,6 +42,8 @@ This package deploys the complete multi-domain webserv stack:
 
 - Symlinks used for MOTDs and ASCII art
 - Domain public_html uses symlinks for elevenlabs.js and favicons
+- Each site's index.html embeds cto.sig.png and loads /elevenlabs.js
+- elevenlabs.js lives in assets/elevenlabs/ and is symlinked per subdomain so each site can provide a custom version. The script keeps the audio element fixed at the top center.
 - API server handles both card and Google Pay token flows
 - .vimrc and .bashrc are installed per domain prompt spec
 
