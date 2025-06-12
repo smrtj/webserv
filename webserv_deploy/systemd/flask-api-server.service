@@ -1,0 +1,14 @@
+[Unit]
+Description=Flask API server for webserv
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/api_server
+ExecStart=/var/www/api_server/venv/bin/python /var/www/api_server/app.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
