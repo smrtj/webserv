@@ -29,9 +29,16 @@ elevenlabs_map["hackserv.org"]="hack-elevenlabs.js"
 
 # Create ElevenLabs.js symlinks
 echo "Creating ElevenLabs.js symlinks..."
-for domain in "${!elevenlabs_map[@]}"; do
-    echo "Processing $domain → ${elevenlabs_map[$domain]}"
-    ln -sf /var/www/assets/elevenlabs/${elevenlabs_map[$domain]} /var/www/html/$domain/public_html/elevenlabs.js
+for domain_path in /var/www/html/*/; do
+    domain=$(basename "$domain_path")
+    for pattern in "${!elevenlabs_map[@]}"; do
+        if [[ "$domain" == *"$pattern" ]]; then
+            target="/var/www/assets/elevenlabs/${elevenlabs_map[$pattern]}"
+            ln -sf "$target" "/var/www/assets/elevenlabs/${domain}-elevenlabs.js"
+            ln -sf "/var/www/assets/elevenlabs/${domain}-elevenlabs.js" "/var/www/html/$domain/elevenlabs.js"
+            break
+        fi
+    done
 done
 
 
@@ -58,7 +65,7 @@ favicons_map["hackserv.org"]="favicon-hack.ico"
 echo "Creating favicon.ico symlinks..."
 for domain in "${!favicons_map[@]}"; do
     echo "Processing $domain → ${favicons_map[$domain]}"
-    ln -sf /var/www/assets/favicons/${favicons_map[$domain]} /var/www/html/$domain/public_html/favicon.ico
+    ln -sf /var/www/assets/favicons/${favicons_map[$domain]} /var/www/html/$domain/favicon.ico
 done
 
 
