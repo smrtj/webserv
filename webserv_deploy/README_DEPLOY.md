@@ -32,7 +32,11 @@ This package deploys the complete multi-domain webserv stack:
 - Optionally starts API server as systemd service
 - Commits post-deploy state to Git
 
-3️⃣ Verify services
+3️⃣ Run ensure_indexes.sh
+
+- Copies a default index.html into each html/* directory if missing
+
+4️⃣ Verify services
 
 - All domains and subdomains should load with valid SSL
 - API server /charge endpoint should respond correctly
