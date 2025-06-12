@@ -1,4 +1,0 @@
-<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
-<elevenlabs-convai agent-id="AGENT_ID_FOR_DOMAIN"></elevenlabs-convai>
-
-End of hack-elevenlabs.js.
