@@ -13,4 +13,3 @@ set incsearch
 set hlsearch
 set backspace=indent,eol,start
 
-End of .vimrc.
