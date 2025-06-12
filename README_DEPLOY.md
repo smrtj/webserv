@@ -51,6 +51,21 @@ This package deploys the complete multi-domain webserv stack:
 - To update assets or MOTDs → update /var/www/assets and commit
 - To update API server → update /var/www/api_server and commit
 
+## Local API Testing
+
+The Flask API can be started locally for development:
+
+```bash
+cd api_server
+python3 -m venv venv  # create virtual environment if needed
+source venv/bin/activate
+pip install flask flask-cors requests
+python app.py
+```
+
+The server will listen on `http://localhost:5000/charge`. Use this to test the
+order form before deploying.
+
 ---
 
 End of README_DEPLOY.md.
