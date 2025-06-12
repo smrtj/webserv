@@ -66,5 +66,9 @@ python app.py
 The server will listen on `http://localhost:5000/charge`. Use this to test the
 order form before deploying.
 
+## Pushing to Git
+1. `git remote add origin <your-remote-url>`
+2. `git push -u origin work`
+
 ---
 
