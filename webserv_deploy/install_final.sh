@@ -68,8 +68,8 @@ sudo mkdir -p /home/kote/kjo_html
 sudo mkdir -p /home/kote/hack_html
 
 # Create /var/www/assets
-sudo mkdir -p /var/www/assets/favicons
-sudo mkdir -p /var/www/assets/elevenlabs
+sudo mkdir -p /var/www/assets /var/www/assets/favicons
+sudo cp "$(dirname "$0")/../assets/elevenlabs.js" /var/www/assets/elevenlabs.js
 sudo chown -R www-data:www-data /var/www/assets
 sudo chmod -R 755 /var/www/assets
 
