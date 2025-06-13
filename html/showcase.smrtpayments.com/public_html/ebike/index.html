@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eBike Rental Waiver</title>
+    <link rel="stylesheet" href="/assets/custom.css">
+</head>
+<body>
+    <h1>eBike Rental Waiver</h1>
+    <form id="waiver-form">
+        <label for="name">Full Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        <label>
+            <input type="checkbox" id="agree" required>
+            I have read and agree to the waiver terms.
+        </label><br><br>
+        <button type="submit">Submit Waiver</button>
+    </form>
+    <p id="result"></p>
+    <img src="/assets/cto.sig.png" alt="Signature" class="signature">
+    <script src="waiver.js"></script>
+</body>
+</html>
