@@ -1,4 +1,5 @@
 [Unit]
+ codex/design-order-form-and-integrate-with-api
 Description=SMRT Payments Flask API Server
 After=network.target
 
@@ -8,6 +9,17 @@ User=www-data
 WorkingDirectory=/var/www/api_server
 ExecStart=/var/www/api_server/venv/bin/python /var/www/api_server/app.py
 Restart=always
+=======
+Description=Flask API Server
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/api_server
+Environment="PATH=/var/www/api_server/venv/bin"
+ExecStart=/usr/bin/python3 /var/www/api_server/app_final.py
+
 
 [Install]
 WantedBy=multi-user.target

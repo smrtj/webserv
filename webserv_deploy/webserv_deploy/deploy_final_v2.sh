@@ -32,7 +32,7 @@ pip install flask flask-cors requests
 # Verify Flask app for Discover eBike waiver and order form
 echo "Verifying required Flask app files..."
 REQUIRED_FILES=(
-    "/var/www/api_server/app.py"
+    "/var/www/api_server/app_final.py"
     "/var/www/api_server/IPOSPayIntegration.py"
     "/var/www/api_server/api_keys.json"
 )
@@ -46,7 +46,7 @@ done
 
 # Post verification, start Flask app (manual test)
 echo "Manual test command:"
-echo "source /var/www/api_server/venv/bin/activate && python /var/www/api_server/app.py"
+echo "source /var/www/api_server/venv/bin/activate && python /var/www/api_server/app_final.py"
 
 # Or recommend systemd service
 echo "Recommended: create systemd service flask-api-server.service in /etc/systemd/system/"
@@ -56,7 +56,7 @@ echo "sudo systemctl start flask-api-server"
 
 # Confirm API server running (basic check)
 echo "Checking if Flask API server process is running..."
-if pgrep -f "python.*app.py" > /dev/null; then
+if pgrep -f "python.*app_final.py" > /dev/null; then
     echo "Flask API server appears to be running."
 else
     echo "WARNING: Flask API server not detected running. Please start via systemd or manually."

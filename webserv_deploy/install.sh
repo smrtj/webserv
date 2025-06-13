@@ -33,7 +33,9 @@ sed -i 's|^#UserDir public_html|UserDir public_html|' /etc/apache2/mods-availabl
 mkdir -p /home/jordan/smrt_html /home/jordan/team_html /home/jordan/kjo_html /home/jordan/hack_html
 
 # Create /var/www/assets
-mkdir -p /var/www/assets/favicons /var/www/assets/elevenlabs
+mkdir -p /var/www/assets /var/www/assets/favicons
+# Copy default elevenlabs widget
+cp "$(dirname "$0")/../assets/elevenlabs.js" /var/www/assets/elevenlabs.js
 
 # Symlink MOTDs and ascii-art.txt
 ln -sf /var/www/assets/motd_user.txt /etc/motd
