@@ -43,6 +43,20 @@ This package deploys the complete multi-domain webserv stack:
 - API server /charge endpoint should respond correctly
 - MOTDs and prompts should display per domain spec
 
+4️⃣ Run finish.sh
+
+- Finalizes symlinks for ElevenLabs.js and favicons
+- Directory layout expects `/var/www/assets/elevenlabs/` and `/var/www/html/<domain>/public_html/`
+- Creates `/var/www/html/<domain>/public_html/elevenlabs.js` symlinks
+- Enable Flask API server service:
+
+  `sudo systemctl enable --now flask-api-server.service`
+
+- Verify service and symlinks:
+
+  `systemctl status flask-api-server.service`
+  `ls -l /var/www/html/<domain>/public_html/elevenlabs.js`
+
 ## Notes
 
 - Symlinks used for MOTDs and ASCII art
