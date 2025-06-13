@@ -4,9 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SMRT Order Form</title>
+    <link rel="stylesheet" href="/assets/custom.css">
 </head>
 <body>
-    <h1>Order Form Coming Soon</h1>
-    <p>The full order form will be live shortly. Please check back soon.</p>
+    <h1>Order Hardware</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Hardware Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Aloha PX15 Quick Service Pro</td><td>Bundle</td><td>PX15, EMV, Customer Display, Cash Drawer, Printer</td><td>$2,500.00</td></tr>
+            <tr><td>Aloha PX10 Table Service Core</td><td>Bundle</td><td>PX10, EMV, Customer Display, Cash Drawer, Printer</td><td>$2,200.00</td></tr>
+            <tr><td>Silver PX15 Essentials Complete</td><td>Bundle</td><td>PX15, EMV, Customer Display, Cash Drawer, Printer</td><td>$2,000.00</td></tr>
+            <tr><td>Silver PX10 Essentials Starter</td><td>Bundle</td><td>PX10, EMV, Customer Display, Cash Drawer, Printer</td><td>$1,800.00</td></tr>
+            <tr><td>Silver PX15 Essentials Starter</td><td>Bundle</td><td>PX15, EMV, Customer Display, Cash Drawer, Printer</td><td>$2,000.00</td></tr>
+            <tr><td><strong>Aloha PX15 Full-Service Deluxe</strong></td><td>Bundle</td><td>PX15, EMV, Customer Display, Cash Drawer, Printer, KDS</td><td><strong>$3,200.00</strong></td></tr>
+            <tr><td>Handheld Axium EX8000 Kit 2</td><td>Item</td><td>Includes Mobile Protector Case and Single Slot Charger</td><td>$900.00</td></tr>
+            <tr><td>Handheld Axium EX8000</td><td>Item</td><td>w/Mobile Protector Case</td><td>$825.00</td></tr>
+            <tr><td>Bixolon SRP-S300LOEK Sticky Printer Kit</td><td>Item</td><td>N/A</td><td>$500.00</td></tr>
+            <tr><td>Countertop Receipt Printer for NCR Silver</td><td>Item</td><td>Bixolon SRP 350iii</td><td>$400.00</td></tr>
+            <tr><td>Kitchen Impact Printer</td><td>Item</td><td>Bixolon SRP-275iii</td><td>$400.00</td></tr>
+            <tr><td>NCR Silver 2D Scanner</td><td>Item</td><td>Zebra DS9308 - Essential Configuration</td><td>$325.00</td></tr>
+            <tr><td>Aloha Cloud 2D Scanner</td><td>Item</td><td>Zebra DS9308 - PRO Configuration</td><td>$325.00</td></tr>
+            <tr><td>Mettler Toledo Avira S-17</td><td>Item</td><td>240oz Scale Adapter Kit</td><td>$200.00</td></tr>
+            <tr><td>Cash Drawer MS</td><td>Item</td><td>16in, 5 Bill 5 Coin</td><td>$150.00</td></tr>
+            <tr><td>Cash Drawer w/Till</td><td>Item</td><td>13"</td><td>$150.00</td></tr>
+            <tr><td>Cash Drawer Till MS</td><td>Item</td><td>16in, 5 Bill 5 Coin</td><td>$50.00</td></tr>
+            <tr><td>Cash Drawer Under Counter Mounting Bracket (M-S)</td><td>Item</td><td>16"</td><td>$50.00</td></tr>
+            <tr><td>Cash Drawer Under Counter Mounting Bracket (APG)</td><td>Item</td><td>13"</td><td>$50.00</td></tr>
+            <tr><td>Kitchen Display System (KDS)</td><td>Item</td><td>N/A</td><td>$525.00</td></tr>
+        </tbody>
+    </table>
+    <form id="orderForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+        <label for="merchant_id">Merchant ID:</label>
+        <input type="text" id="merchant_id" required>
+        <label for="payment_token_id">Payment Token:</label>
+        <input type="text" id="payment_token_id" required>
+        <label for="product">Product:</label>
+        <select id="product">
+            <option value="Aloha PX15 Quick Service Pro">Aloha PX15 Quick Service Pro</option>
+            <option value="Aloha PX10 Table Service Core">Aloha PX10 Table Service Core</option>
+            <option value="Silver PX15 Essentials Complete">Silver PX15 Essentials Complete</option>
+            <option value="Silver PX10 Essentials Starter">Silver PX10 Essentials Starter</option>
+            <option value="Silver PX15 Essentials Starter">Silver PX15 Essentials Starter</option>
+            <option value="Aloha PX15 Full-Service Deluxe">Aloha PX15 Full-Service Deluxe</option>
+            <option value="Handheld Axium EX8000 Kit 2">Handheld Axium EX8000 Kit 2</option>
+            <option value="Handheld Axium EX8000">Handheld Axium EX8000</option>
+            <option value="Bixolon SRP-S300LOEK Sticky Printer Kit">Bixolon SRP-S300LOEK Sticky Printer Kit</option>
+            <option value="Countertop Receipt Printer for NCR Silver">Countertop Receipt Printer for NCR Silver</option>
+            <option value="Kitchen Impact Printer">Kitchen Impact Printer</option>
+            <option value="NCR Silver 2D Scanner">NCR Silver 2D Scanner</option>
+            <option value="Aloha Cloud 2D Scanner">Aloha Cloud 2D Scanner</option>
+            <option value="Mettler Toledo Avira S-17">Mettler Toledo Avira S-17</option>
+            <option value="Cash Drawer MS">Cash Drawer MS</option>
+            <option value="Cash Drawer w/Till">Cash Drawer w/Till</option>
+            <option value="Cash Drawer Till MS">Cash Drawer Till MS</option>
+            <option value="Cash Drawer Under Counter Mounting Bracket (M-S)">Cash Drawer Under Counter Mounting Bracket (M-S)</option>
+            <option value="Cash Drawer Under Counter Mounting Bracket (APG)">Cash Drawer Under Counter Mounting Bracket (APG)</option>
+            <option value="Kitchen Display System (KDS)">Kitchen Display System (KDS)</option>
+        </select>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" value="1" min="1" required>
+        <label for="amount">Amount (USD):</label>
+        <input type="number" id="amount" step="0.01" required readonly>
+        <button type="submit">Submit Order</button>
+    </form>
+    <div id="message"></div>
+    <script src="order.js"></script>
 </body>
 </html>

@@ -25,10 +25,11 @@ pip install flask flask-cors requests
 
 # Manual test (optional):
 # source /var/www/api_server/venv/bin/activate
-# python /var/www/api_server/app.py
+# python /var/www/api_server/app_final.py
 
 # Setup systemd service
-cp /var/www/systemd/flask-api-server.service /etc/systemd/system/
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cp "$SCRIPT_DIR/systemd/flask-api-server.service" /etc/systemd/system/
 systemctl daemon-reload
 systemctl enable flask-api-server
 systemctl start flask-api-server

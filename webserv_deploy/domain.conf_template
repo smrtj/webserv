@@ -45,4 +45,3 @@
     CustomLog ${APACHE_LOG_DIR}/[domain]_ssl_access.log combined
 </VirtualHost>
 
-End of vhost template.

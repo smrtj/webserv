@@ -1,11 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from IPOSPayIntegration import IPOSPayIntegration
+ codex/add-bin-lookup-function-and-integration
 from bin_utils import lookup_bin
+
 import socket
 
 app = Flask(__name__)
 CORS(app)
+
+ codex/add-bin-lookup-function-and-integration
 
 
 @app.route('/charge', methods=['POST'])
@@ -23,11 +27,13 @@ def charge():
         currency = data.get('currency', 'USD')
         metadata = data.get('metadata', {})
 
+ codex/add-bin-lookup-function-and-integration
         # Lookup BIN info using the token's leading digits
         bin_info = lookup_bin(payment_token_id)
         if bin_info:
             app.logger.info(f"BIN metadata: {bin_info}")
             metadata['bin_info'] = bin_info
+
 
         # Improved domain detection
         domain = request.headers.get("Host", socket.gethostname())
@@ -41,6 +47,7 @@ def charge():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+codex/add-bin-lookup-function-and-integration
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

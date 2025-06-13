@@ -1,9 +1,21 @@
 import json
+
+import os
+
 import requests
 
 class IPOSPayIntegration:
     def __init__(self, domain):
+codex/add-bin-lookup-function-and-integration
         with open('/var/www/assets/api_keys.json', 'r') as f:
+
+        # Attempt to load keys from /var/www/assets first
+        key_path = '/var/www/assets/api_keys.json'
+        if not os.path.exists(key_path):
+            # Fallback to local copy within api_server/
+            key_path = os.path.join(os.path.dirname(__file__), 'api_keys.json')
+        with open(key_path, 'r') as f:
+
             api_keys = json.load(f)
         # Select API key based on domain or use default
         if domain in api_keys:
