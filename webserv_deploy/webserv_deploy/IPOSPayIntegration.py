@@ -30,6 +30,7 @@ class IPOSPayIntegration:
         response.raise_for_status()
         return response.json()
 
+<<<<<<< codex/add-charge_ach-method-to-ipospayintegration
     def charge_ach(
         self,
         merchant_id,
@@ -59,3 +60,5 @@ class IPOSPayIntegration:
         return response.json()
 
 # End of IPOSPayIntegration.py.
+=======
+>>>>>>> master

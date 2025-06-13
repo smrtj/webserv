@@ -32,16 +32,36 @@ This package deploys the complete multi-domain webserv stack:
 - Optionally starts API server as systemd service
 - Commits post-deploy state to Git
 
-3️⃣ Verify services
+3️⃣ Run finish.sh
+
+- Creates final symlinks for ElevenLabs.js, favicon.ico and SMRT_logo.png
+- Should be executed after deploy.sh completes
+
+4️⃣ Verify services
 
 - All domains and subdomains should load with valid SSL
 - API server /charge endpoint should respond correctly
 - MOTDs and prompts should display per domain spec
 
+4️⃣ Run finish.sh
+
+- Finalizes symlinks for ElevenLabs.js and favicons
+- Directory layout expects `/var/www/assets/elevenlabs/` and `/var/www/html/<domain>/public_html/`
+- Creates `/var/www/html/<domain>/public_html/elevenlabs.js` symlinks
+- Enable Flask API server service:
+
+  `sudo systemctl enable --now flask-api-server.service`
+
+- Verify service and symlinks:
+
+  `systemctl status flask-api-server.service`
+  `ls -l /var/www/html/<domain>/public_html/elevenlabs.js`
+
 ## Notes
 
 - Symlinks used for MOTDs and ASCII art
 - Domain public_html uses symlinks for elevenlabs.js and favicons
+  stored under `/var/www/assets/elevenlabs` and `/var/www/assets/favicons`
 - API server handles both card and Google Pay token flows
 - .vimrc and .bashrc are installed per domain prompt spec
 
@@ -51,6 +71,9 @@ This package deploys the complete multi-domain webserv stack:
 - To update assets or MOTDs → update /var/www/assets and commit
 - To update API server → update /var/www/api_server and commit
 
+## Pushing to Git
+1. `git remote add origin <your-remote-url>`
+2. `git push -u origin work`
+
 ---
 
-End of README_DEPLOY.md.
