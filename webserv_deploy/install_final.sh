@@ -68,8 +68,8 @@ sudo mkdir -p /home/kote/kjo_html
 sudo mkdir -p /home/kote/hack_html
 
 # Create /var/www/assets
-sudo mkdir -p /var/www/assets/favicons
-sudo mkdir -p /var/www/assets/elevenlabs
+sudo mkdir -p /var/www/assets /var/www/assets/favicons
+sudo cp "$(dirname "$0")/../assets/elevenlabs.js" /var/www/assets/elevenlabs.js
 sudo chown -R www-data:www-data /var/www/assets
 sudo chmod -R 755 /var/www/assets
 
@@ -79,7 +79,7 @@ sudo ln -sf /var/www/assets/motd_root.txt /root/motd
 sudo ln -sf /var/www/assets/ascii-art.txt /etc/ascii-art.txt
 
 # For each domain public_html — create dir and symlinks
-for domain in smrtpayments.com www.smrtpayments.com showcase.smrtpayments.com crm.smrtpayments.com anchor.smrtpayments.com links.smrtpayments.com status.smrtpayments.com sandbox.smrtpayments.com api.smrtpayments.com order.smrtpayments.com shop.smrtpayments.com pay.smrtpayments.com portal.smrtpayments.com partner.smrtpayments.com bifrost.smrtpayments.com webui.smrtpayments.com assets.smrtpayments.com cto.smrtpayments.com kote.smrtpayments.com support.smrtpayments.com marketing.smrtpayments.com docs.smrtpayments.com billing.smrtpayments.com legal.smrtpayments.com kristen.smrtpayments.com jordan.smrtpayments.com olivia.smrtpayments.com teamkjo.com links.teamkjo.com status.teamkjo.com sandbox.teamkjo.com api.teamkjo.com news.teamkjo.com blog.teamkjo.com shop.teamkjo.com pay.teamkjo.com portal.teamkjo.com partner.teamkjo.com bifrost.teamkjo.com webui.teamkjo.com assets.teamkjo.com cto.teamkjo.com kote.teamkjo.com support.teamkjo.com marketing.teamkjo.com docs.teamkjo.com kristen.teamkjo.com jordan.teamkjo.com olivia.teamkjo.com kjo.ai links.kjo.ai status.kjo.ai sandbox.kjo.ai api.kjo.ai news.kjo.ai blog.kjo.ai bifrost.kjo.ai webui.kjo.ai assets.kjo.ai cto.kjo.ai kote.kjo.ai support.kjo.ai marketing.kjo.ai docs.kjo.ai kristen.kjo.ai jordan.kjo.ai olivia.kjo.ai hackserv.cc links.hackserv.cc status.hackserv.cc sandbox.hackserv.cc api.hackserv.cc kvothe.hackserv.cc bifrost.hackserv.cc webui.hackserv.cc assets.hackserv.cc kristen.hackserv.cc jordan.hackserv.cc olivia.hackserv.cc hackserv.org links.hackserv.org status.hackserv.org sandbox.hackserv.org api.hackserv.org kvothe.hackserv.org bifrost.hackserv.org webui.hackserv.org assets.hackserv.org kristen.hackserv.org jordan.hackserv.org olivia.hackserv.org; do
+for domain in smrtpayments.com www.smrtpayments.com showcase.smrtpayments.com crm.smrtpayments.com anchor.smrtpayments.com links.smrtpayments.com status.smrtpayments.com sandbox.smrtpayments.com api.smrtpayments.com order.smrtpayments.com shop.smrtpayments.com pay.smrtpayments.com portal.smrtpayments.com partner.smrtpayments.com bifrost.smrtpayments.com webui.smrtpayments.com assets.smrtpayments.com cto.smrtpayments.com kote.smrtpayments.com support.smrtpayments.com marketing.smrtpayments.com docs.smrtpayments.com billing.smrtpayments.com legal.smrtpayments.com kristen.smrtpayments.com jordan.smrtpayments.com olivia.smrtpayments.com teamkjo.com links.teamkjo.com status.teamkjo.com sandbox.teamkjo.com api.teamkjo.com news.teamkjo.com blog.teamkjo.com shop.teamkjo.com pay.teamkjo.com portal.teamkjo.com partner.teamkjo.com bifrost.teamkjo.com webui.teamkjo.com assets.teamkjo.com cto.teamkjo.com kote.teamkjo.com support.teamkjo.com marketing.teamkjo.com docs.teamkjo.com kristen.teamkjo.com jordan.teamkjo.com olivia.teamkjo.com kjo.ai links.kjo.ai status.kjo.ai sandbox.kjo.ai api.kjo.ai news.kjo.ai blog.kjo.ai bifrost.kjo.ai webui.kjo.ai assets.kjo.ai cto.kjo.ai kote.kjo.ai support.kjo.ai marketing.kjo.ai docs.kjo.ai kristen.kjo.ai jordan.kjo.ai olivia.kjo.ai hackserv.cc links.hackserv.cc status.hackserv.cc sandbox.hackserv.cc api.hackserv.cc kvothe.hackserv.cc bifrost.hackserv.cc webui.hackserv.cc assets.hackserv.cc kristen.hackserv.cc jordan.hackserv.cc olivia.hackserv.cc hackserv.org links.hackserv.org status.hackserv.org sandbox.hackserv.org api.hackserv.org kvothe.hackserv.org bifrost.hackserv.org webui.hackserv.org assets.hackserv.org kristen.hackserv.org jordan.hackserv.org olivia.hackserv.org chat.smrtpayments.com chat.teamkjo.com chat.kjo.ai chat.hackserv.cc chat.hackserv.org; do
     sudo mkdir -p /var/www/html/$domain
     sudo ln -sf /var/www/assets/favicons/favicon-$domain.ico /var/www/html/$domain/favicon.ico || true
     sudo ln -sf /var/www/assets/elevenlabs/$(echo $domain | cut -d'.' -f1)-elevenlabs.js /var/www/html/$domain/elevenlabs.js || true
@@ -108,6 +108,11 @@ sudo a2ensite cto.smrtpayments.com.conf
 sudo a2ensite kote.smrtpayments.com.conf
 sudo a2ensite support.smrtpayments.com.conf
 sudo a2ensite marketing.smrtpayments.com.conf
+sudo a2ensite chat.smrtpayments.com.conf
+sudo a2ensite chat.teamkjo.com.conf
+sudo a2ensite chat.kjo.ai.conf
+sudo a2ensite chat.hackserv.cc.conf
+sudo a2ensite chat.hackserv.org.conf
 sudo a2ensite docs.smrtpayments.com.conf
 sudo a2ensite billing.smrtpayments.com.conf
 sudo a2ensite legal.smrtpayments.com.conf
