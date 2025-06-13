@@ -29,8 +29,10 @@ class IPOSPayIntegration:
         response = requests.post(url, headers=headers, json=payload)
         response.raise_for_status()
         return response.json()
+ codex/remove-trailing-line,-rename-app.py,-and-update-scripts
+=======
 
-<<<<<<< codex/add-charge_ach-method-to-ipospayintegration
+ codex/add-charge_ach-method-to-ipospayintegration
     def charge_ach(
         self,
         merchant_id,
@@ -61,4 +63,5 @@ class IPOSPayIntegration:
 
 # End of IPOSPayIntegration.py.
 =======
->>>>>>> master
+ master
+ master
