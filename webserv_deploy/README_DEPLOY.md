@@ -56,5 +56,9 @@ This package deploys the complete multi-domain webserv stack:
 - To update assets or MOTDs → update /var/www/assets and commit
 - To update API server → update /var/www/api_server and commit
 
+## Pushing to Git
+1. `git remote add origin <your-remote-url>`
+2. `git push -u origin work`
+
 ---
 
