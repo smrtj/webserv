@@ -8,79 +8,34 @@ set -e
 
 echo "Starting finish.sh — final symlink setup..."
 
-# ElevenLabs.js symlinks
-
-# ElevenLabs.js domain → js mapping
-declare -A elevenlabs_map
-
-# SMRT domains
-elevenlabs_map["smrtpayments.com"]="smrt-elevenlabs.js"
-elevenlabs_map["showcase.smrtpayments.com"]="smrt-elevenlabs.js"
-elevenlabs_map["crm.smrtpayments.com"]="smrt-elevenlabs.js"
-
-# KJO domains (teamkjo.com and kjo.ai)
-elevenlabs_map["teamkjo.com"]="kjo-elevenlabs.js"
-elevenlabs_map["kjo.ai"]="kjo-elevenlabs.js"
-
-# Hack domains
-elevenlabs_map["hackserv.cc"]="hack-elevenlabs.js"
-elevenlabs_map["hackserv.org"]="hack-elevenlabs.js"
-
-
-# Create ElevenLabs.js symlinks
-echo "Creating ElevenLabs.js symlinks..."
-for domain in "${!elevenlabs_map[@]}"; do
-    echo "Processing $domain → ${elevenlabs_map[$domain]}"
-    ln -sf /var/www/assets/elevenlabs/${elevenlabs_map[$domain]} /var/www/html/$domain/public_html/elevenlabs.js
+# Discover domains dynamically under /var/www/html
+elevenlabs_domains=()
+for dir in /var/www/html/*; do
+    [ -d "$dir" ] || continue
+    domain="$(basename "$dir")"
+    case "$domain" in
+        .*|"" ) continue ;;
+    esac
+    elevenlabs_domains+=("$domain")
 done
 
+echo "Creating symlinks for: ${elevenlabs_domains[*]}"
 
-# Favicons symlinks
+for domain in "${elevenlabs_domains[@]}"; do
+    subdomain="${domain%%.*}"
 
-# Favicons domain → favicon mapping
-declare -A favicons_map
+    # elevenlabs.js
+    js_source="/var/www/assets/elevenlabs/${subdomain}-elevenlabs.js"
+    [ -f "$js_source" ] || js_source="/var/www/assets/elevenlabs/placeholder-elevenlabs.js"
+    ln -sf "$js_source" "/var/www/html/$domain/public_html/elevenlabs.js"
 
-# SMRT domains
-favicons_map["smrtpayments.com"]="favicon-smrt.ico"
-favicons_map["showcase.smrtpayments.com"]="favicon-smrt.ico"
-favicons_map["crm.smrtpayments.com"]="favicon-smrt.ico"
+    # favicon.ico
+    fav_source="/var/www/assets/favicons/favicon-${domain}.ico"
+    [ -f "$fav_source" ] || fav_source="/var/www/assets/favicons/default.ico"
+    ln -sf "$fav_source" "/var/www/html/$domain/public_html/favicon.ico"
 
-# KJO domains (teamkjo.com and kjo.ai)
-favicons_map["teamkjo.com"]="favicon-kjo.ico"
-favicons_map["kjo.ai"]="favicon-kjo.ico"
-
-# Hack domains
-favicons_map["hackserv.cc"]="favicon-hack.ico"
-favicons_map["hackserv.org"]="favicon-hack.ico"
-
-
-# Create favicon.ico symlinks
-echo "Creating favicon.ico symlinks..."
-for domain in "${!favicons_map[@]}"; do
-    echo "Processing $domain → ${favicons_map[$domain]}"
-    ln -sf /var/www/assets/favicons/${favicons_map[$domain]} /var/www/html/$domain/public_html/favicon.ico
-done
-
-
-# SMRT_logo.png symlinks
-
-# SMRT_logo.png domain → include mapping (only domains that want /SMRT_logo.png exposed)
-declare -A smrt_logo_map
-
-# Example domains that expose SMRT_logo.png
-smrt_logo_map["smrtpayments.com"]="yes"
-smrt_logo_map["showcase.smrtpayments.com"]="yes"
-smrt_logo_map["teamkjo.com"]="yes"
-smrt_logo_map["kjo.ai"]="yes"
-
-
-# Create SMRT_logo.png symlinks
-echo "Creating SMRT_logo.png symlinks..."
-for domain in "${!smrt_logo_map[@]}"; do
-    if [[ "${smrt_logo_map[$domain]}" == "yes" ]]; then
-        echo "Processing $domain → SMRT_logo.png"
-        ln -sf /var/www/assets/SMRT_logo.png /var/www/html/$domain/public_html/SMRT_logo.png
-    fi
+    # SMRT_logo.png
+    ln -sf /var/www/assets/SMRT_logo.png "/var/www/html/$domain/public_html/SMRT_logo.png"
 done
 
 
