@@ -62,5 +62,27 @@ for domain in "${!favicons_map[@]}"; do
 done
 
 
+# SMRT_logo.png symlinks
+
+# SMRT_logo.png domain → include mapping (only domains that want /SMRT_logo.png exposed)
+declare -A smrt_logo_map
+
+# Example domains that expose SMRT_logo.png
+smrt_logo_map["smrtpayments.com"]="yes"
+smrt_logo_map["showcase.smrtpayments.com"]="yes"
+smrt_logo_map["teamkjo.com"]="yes"
+smrt_logo_map["kjo.ai"]="yes"
+
+
+# Create SMRT_logo.png symlinks
+echo "Creating SMRT_logo.png symlinks..."
+for domain in "${!smrt_logo_map[@]}"; do
+    if [[ "${smrt_logo_map[$domain]}" == "yes" ]]; then
+        echo "Processing $domain → SMRT_logo.png"
+        ln -sf /var/www/assets/SMRT_logo.png /var/www/html/$domain/public_html/SMRT_logo.png
+    fi
+done
+
+
 # Final echo
-echo "Finish.sh complete — ElevenLabs.js and favicon.ico symlinks created."
+echo "Finish.sh complete — ElevenLabs.js, favicon.ico, and SMRT_logo.png symlinks created."
