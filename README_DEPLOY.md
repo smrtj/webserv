@@ -32,10 +32,16 @@ This package deploys the complete multi-domain webserv stack:
 - Optionally starts API server as systemd service
 - Commits post-deploy state to Git
 
+codex/create-index-template-and-script
+3️⃣ Run ensure_indexes.sh
+
+- Copies a default index.html into each html/* directory if missing
+=======
 3️⃣ Run finish.sh
 
 - Creates final symlinks for ElevenLabs.js, favicon.ico and SMRT_logo.png
 - Should be executed after deploy.sh completes
+ master
 
 4️⃣ Verify services
 
