@@ -61,7 +61,30 @@ This bundle deploys the complete multi-domain webserv stack:
 ├── app.py
 ├── IPOSPayIntegration.py
 ├── api_keys.json
+├── api_server.service
 ├── venv/ (Python virtual environment for Flask app)
+
+### Environment Variables
+
+The API server reads payment credentials from environment variables when
+available:
+
+- `TPN` – terminal provider number
+- `MID` – merchant ID
+- `JWT_KEY` – JSON Web Token secret
+- `FLASK_HOST` – listening address (default `0.0.0.0`)
+- `FLASK_PORT` – listening port (default `5000`)
+
+If these are not present the server attempts to load `api_keys.json` in the
+same directory. Keep this file outside of version control or restrict its
+permissions to protect secret values.
+
+## Deployment
+
+Run `./install.sh` as root to install required packages and initialise the
+`/var/www` directory tree. After reviewing and adjusting the generated files,
+execute `./deploy.sh` to create Apache VirtualHosts and start the API server via
+systemd. Both scripts are idempotent and can be re-run safely.
 
 ---
 
