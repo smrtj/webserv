@@ -67,7 +67,12 @@ codex/create-index-template-and-script
 
 - Symlinks used for MOTDs and ASCII art
 - Domain public_html uses symlinks for elevenlabs.js and favicons
+ codex/update-readme_deploy.md-with-asset-details
+- Each site's index.html embeds cto.sig.png and loads /elevenlabs.js
+- elevenlabs.js lives in assets/elevenlabs/ and is symlinked per subdomain so each site can provide a custom version. The script keeps the audio element fixed at the top center.
+=======
   stored under `/var/www/assets/elevenlabs` and `/var/www/assets/favicons`
+ master
 - API server handles both card and Google Pay token flows
 - Payment tokens are checked with `bin_utils.py` to log BIN metadata
   before forwarding to IPOSPay. Only BIN info is stored in `metadata`
