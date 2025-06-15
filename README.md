@@ -63,6 +63,10 @@ This bundle deploys the complete multi-domain webserv stack:
 ├── api_keys.json
 ├── venv/ (Python virtual environment for Flask app)
 
+### Configuration
+
+API keys, TPN, MID, and JWT secrets **must** be provided via environment variables or a secrets manager. Do not commit these secrets to version control. See `.env.example` for the variables required when running the API server locally.
+
 ---
 
 ## Bash and Vim
