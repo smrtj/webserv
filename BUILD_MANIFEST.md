@@ -99,6 +99,23 @@ This bundle deploys the complete multi-domain webserv stack:
 - Post-deploy commit made after deploy.sh and Flask API server install.
 
 ---
+## Deployment
+
+### Requirements
+- Ubuntu 20.04 or newer with root or sudo access
+- Python 3.9 or later
+- DNS provider access for creating TXT records (DNS-01 challenge)
+
+### Running `install.sh`
+1. Place this repository on the target server.
+2. Execute `sudo bash install.sh` from the repository root.
+3. The script installs Apache2 and sets up the directory structure and Python environment for the API server.
+
+### Obtaining wildcard certificates
+- Use Certbot or another ACME client that supports the DNS-01 challenge.
+- Issue a wildcard certificate for each domain, e.g. `certbot certonly --dns-route53 -d "*.smrtpayments.com"`.
+- Install the resulting certificates to your Apache virtual host configuration under `/etc/letsencrypt` or another preferred location.
+
 
 ## Notes
 
