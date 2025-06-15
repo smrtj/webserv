@@ -61,7 +61,13 @@ This bundle deploys the complete multi-domain webserv stack:
 ├── app.py
 ├── IPOSPayIntegration.py
 ├── api_keys.json
+├── api_keys.json.example
 ├── venv/ (Python virtual environment for Flask app)
+
+IPOSPayIntegration.py looks for the following environment variables:
+
+- `IPOSPAY_API_KEY`
+- `IPOSPAY_API_SECRET`
 
 ---
 

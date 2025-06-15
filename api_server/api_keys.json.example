@@ -1,0 +1,4 @@
+{
+  "pos_api_key": "YOUR_IPOSPAY_API_KEY",
+  "pos_api_secret": "YOUR_IPOSPAY_API_SECRET"
+}
