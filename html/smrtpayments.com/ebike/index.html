@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover eBike Waiver</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        form { max-width: 600px; margin: auto; }
+        label { display: block; margin-top: 10px; }
+        input, textarea { width: 100%; padding: 8px; margin-top: 5px; }
+        button { margin-top: 15px; padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <h1>Discover eBike Rental Waiver</h1>
+    <p>Please complete the form below to accept the liability waiver before renting an eBike.</p>
+    <form id="waiver-form" action="/api/waiver" method="POST">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" required>
+
+        <label for="emergency_contact">Emergency Contact</label>
+        <input type="text" id="emergency_contact" name="emergency_contact" required>
+
+        <label>
+            <input type="checkbox" name="agree" required>
+            I have read and agree to the liability waiver.
+        </label>
+
+        <button type="submit">Submit Waiver</button>
+    </form>
+</body>
+</html>
