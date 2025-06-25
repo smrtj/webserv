@@ -1,0 +1,76 @@
+// /assets/SMRT-Pay/smrtpay.js
+class SMRTPay {
+  constructor(config, creds) {
+    this.config = config;
+    this.creds = creds;
+    this.apiUrl = config.paymentApiUrl;
+    this.form = null;
+    this.init();
+  }
+
+  init() {
+    document.addEventListener('DOMContentLoaded', () => {
+      this.renderWidget();
+    });
+  }
+
+  renderWidget() {
+    // You can replace with your own HTML structure
+    const el = document.getElementById('smrtpay-widget') || document.body;
+    el.innerHTML = `
+      <div class="smrtpay-container">
+        <h2>Pay Discover E-Bike</h2>
+        <form id="smrtpay-form">
+          <input type="number" min="${this.config.amountMin}" name="amount" placeholder="Amount (USD)" required>
+          <input type="text" name="cardToken" placeholder="Card Token" required>
+          <input type="email" name="customerEmail" placeholder="Email" required>
+          <button type="submit" class="smrtpay-btn">Pay Now</button>
+        </form>
+        <div id="smrtpay-result"></div>
+      </div>
+    `;
+
+    this.form = document.getElementById('smrtpay-form');
+    this.form.addEventListener('submit', e => this.handlePayment(e));
+  }
+
+  async handlePayment(e) {
+    e.preventDefault();
+    const formData = new FormData(this.form);
+    const payload = {
+      merchantAuthentication: {
+        merchantId: this.config.merchantId,
+        transactionReferenceId: "EBIKE" + Date.now()
+      },
+      transactionRequest: {
+        transactionType: 1,
+        amount: String(Number(formData.get('amount')) * 100), // In cents
+        cardToken: formData.get('cardToken'),
+        applySteamSettingTipFeeTax: false
+      },
+      preferences: {
+        eReceipt: this.config.requireReceiptEmail,
+        customerEmail: formData.get('customerEmail')
+      }
+    };
+
+    let res = await fetch(this.apiUrl, {
+      method: 'POST',
+      headers: {
+        'token': this.creds.AuthToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+    let result = await res.json();
+    document.getElementById('smrtpay-result').innerText = JSON.stringify(result, null, 2);
+  }
+}
+
+// Usage: on page load
+(async function() {
+  const config = await fetch('/assets/SMRT-Pay/smrtpay.config.json').then(r => r.json());
+  const creds = await fetch('/assets/SMRT-Pay/eBikePaymentCreds.json').then(r => r.json());
+  window.smrtPayWidget = new SMRTPay(config, creds);
+})();
+

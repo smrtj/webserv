@@ -1,0 +1,9 @@
+[
+  { "bin": "601100", "type": "PP", "brand": "Discover", "desc": "Discover Prepaid" },
+  { "bin": "411111", "type": "CC", "brand": "Visa", "desc": "Visa Credit" },
+  { "bin": "510510", "type": "CC", "brand": "Mastercard", "desc": "MC Credit" },
+  { "bin": "400555", "type": "RD", "brand": "Visa", "desc": "Regulated Debit" },
+  { "bin": "633110", "type": "DB", "brand": "Debit", "desc": "Debit" }
+  // Add more, merge with site custom EBT as needed.
+]
+

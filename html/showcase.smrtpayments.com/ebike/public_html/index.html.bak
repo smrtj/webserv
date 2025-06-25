@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover E-Bike - Online Waiver & Rental</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+        .waiver-text-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0; /* Tailwind gray-200 */
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.375rem; /* rounded-md */
+            font-size: 0.875rem; /* text-sm */
+        }
+        label {
+            font-weight: 600; /* font-semibold */
+        }
+        .input-field {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1; /* Tailwind gray-300 */
+            border-radius: 0.375rem; /* rounded-md */
+            margin-top: 0.25rem;
+            margin-bottom: 1rem;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem; /* rounded-md */
+            font-weight: 600; /* font-semibold */
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-primary {
+            background-color: #14B8A6; /* Tailwind teal-500 (close to #00A099) */
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0D9488; /* Tailwind teal-600 */
+        }
+        .btn-secondary {
+            background-color: #4B5563; /* Tailwind gray-600 */
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #374151; /* Tailwind gray-700 */
+        }
+        .waiver-text-container h3 {
+            font-size: 1rem; /* text-base */
+            font-weight: bold; /* font-bold */
+            margin-top: 0.75rem; /* mt-3 */
+            margin-bottom: 0.25rem; /* mb-1 */
+            color: #1E3A8A; /* Darker blue, like Tailwind blue-800/900 */
+        }
+         .waiver-text-container p, .waiver-text-container li {
+            margin-bottom: 0.5rem; /* mb-2 */
+        }
+        .initials-box {
+            width: 80px;
+            padding: 0.5rem;
+            border: 1px solid #cbd5e1; /* Tailwind gray-300 */
+            border-radius: 0.375rem; /* rounded-md */
+            margin-left: 0.5rem;
+        }
+        .error-message {
+            color: #DC2626; /* Tailwind red-600 */
+            font-size: 0.875rem; /* text-sm */
+            margin-bottom: 1rem; /* mb-4 */
+        }
+        /* Custom font import for closer match - Montserrat and Lato */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600;700&display=swap');
+        body {
+            font-family: 'Lato', 'Inter', sans-serif; /* Lato as primary body font */
+        }
+        h1, h2, .form-section h2, .waiver-text-container h3, .font-semibold { /* Applying Montserrat to headings and bold elements */
+             font-family: 'Montserrat', 'Inter', sans-serif;
+             font-weight: 600; /* Montserrat semibold */
+        }
+        .font-bold, .waiver-text-container strong {
+            font-family: 'Montserrat', 'Inter', sans-serif;
+            font-weight: 700; /* Montserrat bold */
+        }
+
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-6 sm:p-8 rounded-lg shadow-xl w-full max-w-2xl">
+        <div class="text-center mb-6">
+            <img src="http://www.discoverebike.fun/uploads/1/3/7/0/137087053/discover-e-bike-logo-web_orig.png" alt="Discover E-Bike Logo" class="mx-auto mb-4 rounded h-20 sm:h-24" onerror="this.src='https://placehold.co/200x80/cccccc/000000?text=Discover+E-Bike+Logo'; this.onerror=null;">
+            <h1 class="text-2xl font-bold text-slate-800">Online Waiver & Rental Process</h1>
+        </div>
+
+        <div id="page1" class="form-section active">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Step 1: Adult Renter Information & Waiver</h2>
+            
+            <div class="mb-4">
+                <label for="adultName" class="font-semibold">Full Name:</label>
+                <input type="text" id="adultName" name="adultName" class="input-field" required>
+            </div>
+            <div class="mb-4">
+                <label for="adultPhone" class="font-semibold">Phone Number:</label>
+                <input type="tel" id="adultPhone" name="adultPhone" class="input-field" required>
+            </div>
+            <div class="mb-4">
+                <label for="adultLocalAddress" class="font-semibold">Local Address (e.g., hotel, B&B):</label>
+                <input type="text" id="adultLocalAddress" name="adultLocalAddress" class="input-field">
+            </div>
+            <div class="mb-4">
+                <label for="adultEmail" class="font-semibold">Email Address:</label>
+                <input type="email" id="adultEmail" name="adultEmail" class="input-field" required>
+            </div>
+
+            <p class="text-sm text-gray-600 mb-2">Please read the following agreement carefully. You will be asked to initial key sections.</p>
+            <div id="adultWaiverText" class="waiver-text-container">
+                </div>
+
+            <div class="mt-4 mb-4 space-y-3">
+                <div>
+                    <label for="initialsHelmet" class="font-semibold">Helmet Use Agreement (Section 2):</label>
+                    <input type="text" id="initialsHelmet" class="initials-box" maxlength="3">
+                     <span class="text-xs text-gray-500">Initial here</span>
+                </div>
+                <div>
+                    <label for="initialsAssumptionRisk" class="font-semibold">Express Assumption of Risk (Section 3B):</label>
+                    <input type="text" id="initialsAssumptionRisk" class="initials-box" maxlength="3">
+                    <span class="text-xs text-gray-500">Initial here</span>
+                </div>
+                <div>
+                    <label for="initialsWaiverLiability" class="font-semibold">Waiver of Liability and Release (Section 4):</label>
+                    <input type="text" id="initialsWaiverLiability" class="initials-box" maxlength="3">
+                    <span class="text-xs text-gray-500">Initial here</span>
+                </div>
+                <div>
+                    <label for="initialsIndemnification" class="font-semibold">Indemnification (Section 5):</label>
+                    <input type="text" id="initialsIndemnification" class="initials-box" maxlength="3">
+                    <span class="text-xs text-gray-500">Initial here</span>
+                </div>
+                <div>
+                    <label for="initialsCCAuth" class="font-semibold">Credit Card Authorization (Section 6):</label>
+                    <input type="text" id="initialsCCAuth" class="initials-box" maxlength="3">
+                    <span class="text-xs text-gray-500">Initial here</span>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <label for="numMinors" class="font-semibold">Number of Minors (under 18) riding with you:</label>
+                <select id="numMinors" name="numMinors" class="input-field">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <input type="checkbox" id="agreeTermsAdult" name="agreeTermsAdult" class="mr-2 h-4 w-4 text-teal-500 border-gray-300 rounded focus:ring-teal-400">
+                <label for="agreeTermsAdult" class="text-sm font-normal text-gray-700">I have read, understood, and agree to all terms and conditions of the E-Bike Rental Agreement, Express Assumption of Risk, Waiver of Liability, Indemnification, and Credit Card Authorization as initialed above.</label>
+            </div>
+            <div id="page1Error" class="error-message"></div>
+            <button onclick="goToPage2()" class="btn btn-primary w-full">Next</button>
+        </div>
+
+        <div id="page2" class="form-section">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Step 2: Minor Renter Information & Waiver</h2>
+            <p class="text-sm text-gray-600 mb-2">Please read the following agreement carefully. You will be asked to provide information and initials for each minor.</p>
+            <div id="minorWaiverTextGlobal" class="waiver-text-container">
+                </div>
+            
+            <div id="minorFormsContainer" class="space-y-6">
+                </div>
+
+            <div class="mt-6 mb-4">
+                <label for="parentGuardianNameMinorPage" class="font-semibold">Parent/Guardian Full Name (Confirming for Minors):</label>
+                <input type="text" id="parentGuardianNameMinorPage" class="input-field" readonly>
+            </div>
+             <div class="mb-4">
+                <label for="parentGuardianRelationship" class="font-semibold">Relationship to Minor(s):</label>
+                <input type="text" id="parentGuardianRelationship" class="input-field">
+            </div>
+
+            <div class="mb-4">
+                <input type="checkbox" id="agreeTermsMinor" name="agreeTermsMinor" class="mr-2 h-4 w-4 text-teal-500 border-gray-300 rounded focus:ring-teal-400">
+                <label for="agreeTermsMinor" class="text-sm font-normal text-gray-700">I, as the Parent/Guardian, have read, understood, and agree to all terms of the Parental/Guardian Consent, Indemnification, and Acknowledgment of Risks for Minor E-Bike Rider for all minors listed above, and confirm my initials where required.</label>
+            </div>
+            <div id="page2Error" class="error-message"></div>
+            <div class="flex justify-between mt-6">
+                <button onclick="goBackToPage1()" class="btn btn-secondary">Back</button>
+                <button onclick="goToPage3()" class="btn btn-primary">Next</button>
+            </div>
+        </div>
+
+        <div id="page3" class="form-section">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Step 3: Payment Details</h2>
+            
+            <div class="mb-4">
+                <label for="cardholderName" class="font-semibold">Cardholder Name:</label>
+                <input type="text" id="cardholderName" name="cardholderName" class="input-field" required>
+            </div>
+            <div class="mb-4">
+                <label for="cardNumber" class="font-semibold">Card Number:</label>
+                <input type="text" id="cardNumber" name="cardNumber" class="input-field" required inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx">
+                <div id="cardType" class="text-sm text-gray-500 mt-1"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="expiryDate" class="font-semibold">Expiration Date (MM/YY):</label>
+                    <input type="text" id="expiryDate" name="expiryDate" class="input-field" required placeholder="MM/YY">
+                </div>
+                <div>
+                    <label for="cvv" class="font-semibold">CVV:</label>
+                    <input type="text" id="cvv" name="cvv" class="input-field" required inputmode="numeric" maxlength="4">
+                </div>
+            </div>
+            <div class="mb-6">
+                <label for="billingZip" class="font-semibold">Billing Zip Code:</label>
+                <input type="text" id="billingZip" name="billingZip" class="input-field" required>
+            </div>
+
+            <div class="mb-4">
+                <label class="flex items-center font-semibold">
+                    <input type="checkbox" id="toggleACH" onchange="toggleACHFields()" class="mr-2 h-4 w-4 text-teal-500 border-gray-300 rounded focus:ring-teal-400">
+                    Pay with Bank Account (ACH)?
+                </label>
+            </div>
+
+            <div id="achFields" class="hidden space-y-4 mb-6 p-4 border border-gray-200 rounded-md">
+                 <p class="text-sm text-gray-600">ACH payment is optional. Provide details if you prefer this method.</p>
+                <div>
+                    <label for="achAccountHolderName" class="font-semibold">Account Holder Name:</label>
+                    <input type="text" id="achAccountHolderName" name="achAccountHolderName" class="input-field">
+                </div>
+                <div>
+                    <label for="achBankName" class="font-semibold">Bank Name:</label>
+                    <input type="text" id="achBankName" name="achBankName" class="input-field">
+                </div>
+                <div>
+                    <label for="achAccountType" class="font-semibold">Account Type:</label>
+                    <select id="achAccountType" name="achAccountType" class="input-field">
+                        <option value="">Select Account Type</option>
+                        <option value="checking">Checking</option>
+                        <option value="savings">Savings</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="achRoutingNumber" class="font-semibold">Routing Number:</label>
+                    <input type="text" id="achRoutingNumber" name="achRoutingNumber" class="input-field" inputmode="numeric">
+                </div>
+                <div>
+                    <label for="achAccountNumber" class="font-semibold">Account Number:</label>
+                    <input type="text" id="achAccountNumber" name="achAccountNumber" class="input-field" inputmode="numeric">
+                </div>
+            </div>
+            <div id="page3Error" class="error-message"></div>
+            <div class="flex justify-between mt-6">
+                <button onclick="goBackToPageOnPayment()" class="btn btn-secondary">Back</button>
+                <button onclick="submitForm()" class="btn btn-primary w-full sm:w-auto">Submit Payment & Complete Reservation</button>
+            </div>
+        </div>
+
+        <div id="confirmationPage" class="form-section text-center">
+            <h2 class="text-xl font-semibold mb-4 text-green-600">Reservation Confirmed!</h2>
+            <p class="text-gray-700 mb-2">Thank you for your reservation with Discover E-Bike.</p>
+            <p class="text-gray-700 mb-6">A confirmation email has been sent to you. We look forward to seeing you!</p>
+            <p class="text-sm text-gray-600">Discover E-Bike<br>109 N Oak St, Port Angeles, WA 98362<br>360.460.1218</p>
+        </div>
+    </div>
+
+<script>
+    let currentPage = 1;
+    let adultWaiverData = {};
+    let minorWaiverData = [];
+
+    // --- WAIVER TEXT (Content from your markdown, adapted for HTML) ---
+    const adultWaiverContent = `
+        <h3 class="text-lg font-semibold mb-2">Discover E-Bike, LLC</h3>
+        <p class="text-xs mb-1">109 N Oak St, Port Angeles, WA 98362</p>
+        <p class="text-xs mb-3">360.460.1218</p>
+        <p class="font-bold text-center mb-3">E-Bike Rental Agreement, Express Assumption of Risk, Waiver of Liability, Indemnification, and Credit Card Authorization</p>
+        
+        <p class="font-bold mt-3">LET'S GET YOU ROLLING! (But First, The Important Stuff)</p>
+        <p>This document is a binding legal agreement. By signing this agreement (or clicking "I Agree" or similar if presented electronically), you are entering into a contract with Discover E-Bike, LLC ("Merchant," "Us," "We," "Our"). You are also giving up certain legal rights. Please read this entire document carefully before agreeing.</p>
+
+        <h3>1. Your E-Bike Adventure - The Basics</h3>
+        <ul>
+            <li>You ("Renter," "You," "Your") agree to rent the E-Bike and any accessories listed above for the rental period specified.</li>
+            <li>You agree to pay the posted rental rates and any other charges outlined in this agreement.</li>
+            <li>You confirm you are at least 18 years old (or the legal age required for the class of E-Bike rented, per Washington State law). If renting for a minor, separate parental/guardian consent forms are required and have specific legal implications that must be addressed separately.</li>
+        </ul>
+
+        <h3>2. Playing it Safe & Smart - Your Responsibilities</h3>
+        <ul>
+            <li><strong>Helmet Up!</strong> We REALLY want you to wear a helmet. Seriously. Helmets are provided (or you can use your own certified one). <strong>YOU AGREE TO WEAR A HELMET AT ALL TIMES WHILE RIDING THE E-BIKE.</strong> This isn't just a suggestion; it's for your protection. (Initial Required)</li>
+            <li><strong>Know Your Ride:</strong> You confirm you have been shown how to operate the E-Bike, including brakes, gears (if any), and power assist, or that you are already competent in its use. If you have any questions, ASK US NOW! Don't pretend to be a pro if you're not (yet!).</li>
+            <li><strong>Obey the Law:</strong> You agree to operate the E-Bike in a careful, prudent, and safe manner and to comply with all applicable federal, state (including all Washington State E-Bike laws), and local laws, regulations, and ordinances. This includes traffic laws, trail etiquette, and any rules specific to where you are riding.</li>
+            <li><strong>E-Bike Condition & Pre-Ride Check:</strong> You agree you have inspected the E-Bike and accessories and they are in good working order. If you notice any issues during your ride, stop riding and contact us immediately.</li>
+            <li><strong>Intended Use Only:</strong> Use the E-Bike only for its intended recreational purpose. No racing, stunting, off-roading in prohibited areas, or using the E-Bike for hire or commercial purposes unless expressly agreed in writing by us. Keep the E-Bike out of salt water and avoid overly harsh terrain that could cause damage.</li>
+            <li><strong>No Booze or Bad Ideas:</strong> You represent that you are not under the influence of alcohol, drugs, or any other substance that could impair your ability to safely operate the E-Bike. Riding impaired is dangerous and prohibited.</li>
+            <li><strong>Security:</strong> You are responsible for the security of the E-Bike and accessories during your rental period. Always lock the E-Bike to a secure object when unattended.</li>
+        </ul>
+
+        <h3>3. THE BIG ONE: EXPRESS ASSUMPTION OF RISK</h3>
+        <p>Riding an E-Bike, like any cycling activity, has inherent risks, dangers, and hazards that cannot be eliminated, regardless of the care taken to avoid them. These risks can cause <strong>PROPERTY DAMAGE, SERIOUS PERSONAL INJURY, DISABILITY, AND EVEN DEATH.</strong></p>
+        <p><strong>YOU ACKNOWLEDGE, UNDERSTAND, AND EXPRESSLY AGREE TO THE FOLLOWING:</strong></p>
+        <ul>
+            <li><strong>A. Inherent Risks:</strong> These risks include, but are not limited to:
+                <ul>
+                    <li>Collisions with pedestrians, other vehicles (bikes, cars, etc.), or fixed or moving objects.</li>
+                    <li>Your own actions or inactions, the actions or inactions of others (including other riders or drivers), or the negligence of others.</li>
+                    <li>Falls due to loss of balance, uneven or slippery surfaces, road hazards (potholes, debris, etc.), or equipment malfunction.</li>
+                    <li>Risks associated with the operation and mechanics of an E-Bike, including battery issues or motor assist.</li>
+                    <li>Weather conditions.</li>
+                    <li>Theft, loss, or damage to the E-Bike or your personal property.</li>
+                    <li>Injuries resulting from lifting or moving the E-Bike.</li>
+                </ul>
+            </li>
+            <li><strong>B. VOLUNTARY ACCEPTANCE:</strong> You voluntarily elect to participate in this activity with full knowledge of these risks. <strong>YOU FREELY AND EXPRESSLY ASSUME AND ACCEPT ALL RISKS OF INJURY, DEATH, AND PROPERTY DAMAGE ARISING OUT OF OR RELATED TO YOUR RENTAL AND USE OF THE E-BIKE AND ACCESSORIES, WHETHER CAUSED BY YOUR NEGLIGENCE, THE NEGLIGENCE OF DISCOVER E-BIKE, LLC, OR OTHERWISE, EXCEPT FOR GROSS NEGLIGENCE OR WILLFUL MISCONDUCT BY DISCOVER E-BIKE, LLC.</strong> (Initial Required)</li>
+        </ul>
+
+        <h3>4. EVEN BIGGER: WAIVER OF LIABILITY AND RELEASE</h3>
+        <p>In consideration for being permitted to rent and use the E-Bike and accessories, <strong>YOU, FOR YOURSELF AND YOUR HEIRS, EXECUTORS, ADMINISTRATORS, SUCCESSORS, AND ASSIGNS, HEREBY KNOWINGLY AND VOLUNTARILY WAIVE, RELEASE, DISCHARGE, AND COVENANT NOT TO SUE DISCOVER E-BIKE, LLC, its members, officers, employees, agents, insurers, and assigns (COLLECTIVELY, THE "RELEASED PARTIES") FROM ANY AND ALL CLAIMS, DEMANDS, ACTIONS, CAUSES OF ACTION, LIABILITIES, SUITS, LOSSES, DAMAGES, COSTS, AND EXPENSES (INCLUDING REASONABLE ATTORNEYS' FEES) OF ANY NATURE WHATSOEVER, WHETHER KNOWN OR UNKNOWN, FORESEEN OR UNFORESEEN, THAT YOU EVER HAD, NOW HAVE, OR MAY HEREAFTER HAVE AGAINST THE RELEASED PARTIES ARISING OUT OF OR IN ANY WAY CONNECTED WITH YOUR RENTAL OR USE OF THE E-BIKE OR ACCESSORIES.</strong></p>
+        <p>This waiver and release includes, but is not limited to, claims for personal injury, death, property damage, emotional distress, breach of contract, or breach of warranty, <strong>WHETHER ARISING FROM THE NEGLIGENCE OF THE RELEASED PARTIES OR OTHERWISE,</strong> to the fullest extent permitted by Washington State law.</p>
+        <p><strong>THIS IS A FULL AND FINAL RELEASE AND WAIVER OF LIABILITY. YOU ARE GIVING UP IMPORTANT LEGAL RIGHTS. YOU UNDERSTAND THAT "NEGLIGENCE" INCLUDES THE FAILURE OF THE RELEASED PARTIES TO USE REASONABLE CARE.</strong></p>
+        <p><strong>EXCEPTION: This waiver and release does not apply to injuries or damages proximately caused by the GROSS NEGLIGENCE or WILLFUL MISCONDUCT of Discover E-Bike, LLC.</strong> (Initial Required)</p>
+
+        <h3>5. YOUR TURN TO PROTECT US: INDEMNIFICATION</h3>
+        <p><strong>TO THE FULLEST EXTENT PERMITTED BY LAW, YOU AGREE TO DEFEND, INDEMNIFY, AND HOLD HARMLESS DISCOVER E-BIKE, LLC AND THE OTHER RELEASED PARTIES FROM AND AGAINST ANY AND ALL CLAIMS, DEMANDS, ACTIONS, CAUSES OF ACTION, LIABILITIES, SUITS, JUDGMENTS, LOSSES, DAMAGES, COSTS, AND EXPENSES (INCLUDING REASONABLE ATTORNEYS' FEES AND COURT COSTS) BROUGHT BY ANY THIRD PARTY (INCLUDING, BUT NOT LIMITED TO, OTHER RIDERS, PEDESTRIANS, DRIVERS, OR PROPERTY OWNERS) ARISING OUT OF, CONNECTED WITH, OR RESULTING FROM YOUR RENTAL, USE, OR OPERATION OF THE E-BIKE OR ACCESSORIES.</strong></p>
+        <p>This indemnification obligation includes, but is not limited to, claims for personal injury, death, or property damage caused by your acts or omissions, your breach of this agreement, or your violation of any law.</p>
+        <p><strong>FURTHERMORE, IF DISCOVER E-BIKE, LLC'S OWN NEGLIGENCE (EXCLUDING GROSS NEGLIGENCE OR WILLFUL MISCONDUCT) IS ALLEGED TO HAVE CONTRIBUTED TO SUCH CLAIMS, YOU AGREE TO INDEMNIFY DISCOVER E-BIKE, LLC TO THE EXTENT SUCH CLAIMS ARE CAUSED BY OR RESULT FROM YOUR CONCURRENT NEGLIGENCE, YOUR ACTIONS OR OMISSIONS, OR YOUR BREACH OF THIS AGREEMENT. (The enforceability of indemnifying a party for its own negligence is limited under Washington law and subject to strict interpretation; this clause will be interpreted to be as broad and inclusive as is permitted by the laws of the State of Washington).</strong> (Initial Required)</p>
+
+        <h3>6. TAKING CARE OF OUR GEAR & CREDIT CARD AUTHORIZATION</h3>
+        <p>We trust you'll treat our E-Bikes with care, but accidents happen, and sometimes things get damaged or go missing. Here's how we handle that:</p>
+        <ul>
+            <li><strong>Return Condition:</strong> You agree to return the E-Bike and any accessories in the same condition as when received, except for normal wear and tear. "Normal wear and tear" means the ordinary, gradual deterioration from typical E-Bike use on paved surfaces or designated paths, and does not include things like bent rims, damaged frames, broken shifters/brakes from impact or misuse, or significant cosmetic damage beyond minor scuffs.</li>
+            <li><strong>Damage, Loss, Theft, or Late Returns:</strong> You are fully responsible for any and all damage to, or loss or theft of, the E-Bike and accessories during your rental period, whether caused by you or others, <strong>regardless of fault (i.e., intentional, unintentional, accidental, or non-accidental).</strong></li>
+            <li><strong>Authorization to Charge Your Credit Card:</strong>
+                <strong>BY PROVIDING YOUR CREDIT CARD INFORMATION (EITHER ONLINE OR IN PERSON) AND SIGNING/AGREEING TO THIS DOCUMENT, YOU EXPRESSLY AND IRREVOCABLY AUTHORIZE DISCOVER E-BIKE, LLC TO CHARGE YOUR CREDIT CARD OR OTHER PAYMENT METHOD ON FILE FOR THE FOLLOWING:</strong>
+                <ul>
+                    <li>The full rental fees for the agreed-upon rental period.</li>
+                    <li>The full retail replacement cost of the E-Bike and/or any accessories if they are lost, stolen, or damaged beyond reasonable repair (as determined by Discover E-Bike, LLC in its reasonable discretion).</li>
+                    <li>The actual cost of repairs for any damage to the E-Bike and/or accessories (parts and labor).</li>
+                    <li><strong>Late fees if the E-Bike is not returned by the agreed-upon time. A grace period of 15 minutes applies, after which a late fee of $30.00 per hour (or portion thereof) will be charged.</strong></li>
+                    <li>Retrieval fees if you abandon the E-Bike or require us to retrieve it from a location other than the designated return spot.</li>
+                    <li><strong>Cancellation fees: Cancellations must be made at least 24 hours prior to the scheduled rental time to avoid charges. Cancellations made less than 24 hours in advance, or no-shows, will be charged a fee equivalent to 2 hours of the scheduled rental.</strong></li>
+                    <li>Any other fees or amounts owed by you to Discover E-Bike, LLC under the terms of this agreement (e.g., cleaning fees for excessive soiling).</li>
+                </ul>
+                We will provide you with an itemized statement of any such charges if requested. You agree not to dispute these charges with your credit card company provided they are consistent with the terms of this agreement. (Initial Required)
+            </li>
+        </ul>
+        
+        <h3>7. The Fun Part (Almost Done!)</h3>
+        <p>We genuinely want you to have an amazing and safe time exploring on our E-Bikes! Follow the rules, be aware of your surroundings, respect others, and enjoy the ride. If you have any questions or need assistance, please contact us immediately at <strong>360.460.1218</strong> or visit us at <strong>109 N Oak St, Port Angeles, WA 98362</strong>.</p>
+
+        <h3>8. Legal Nitty-Gritty (The Fine Print)</h3>
+        <ul>
+            <li><strong>Entire Agreement:</strong> This document (along with any specific rental details confirmed at the time of booking if online) constitutes the entire agreement between you and Discover E-Bike, LLC. It supersedes all prior oral or written agreements or understandings. No term may be waived or modified except in writing signed by both parties.</li>
+            <li><strong>Severability:</strong> If any provision of this agreement is found to be unlawful, void, or unenforceable, that provision shall be deemed severable and shall not affect the validity and enforceability of the remaining provisions.</li>
+            <li><strong>Governing Law:</strong> This agreement shall be governed by and construed in accordance with the laws of the State of Washington, without regard to its conflict of laws principles.</li>
+            <li><strong>Jurisdiction and Venue:</strong> Any legal action or proceeding arising out of or relating to this agreement shall be brought exclusively in the state or federal courts located in Clallam County, Washington, and you hereby consent to the exclusive jurisdiction and venue of such courts.</li>
+            <li><strong>Headings:</strong> The headings in this agreement are for convenience only and shall not affect its interpretation.</li>
+            <li><strong>Electronic Signature:</strong> If this agreement is executed electronically (e.g., by clicking "I Agree" on a website), you agree that your electronic signature is the legal equivalent of your manual signature on this agreement.</li>
+        </ul>
+        <p class="font-bold mt-3">BY SIGNING BELOW (OR BY CLICKING "I AGREE" OR A SIMILAR AFFIRMATION ON OUR WEBSITE), I ACKNOWLEDGE THAT I HAVE CAREFULLY READ THIS ENTIRE AGREEMENT, UNDERSTAND ALL OF ITS TERMS, AND AGREE TO BE BOUND BY THEM. I UNDERSTAND THAT I AM GIVING UP SUBSTANTIAL LEGAL RIGHTS, INCLUDING THE RIGHT TO SUE DISCOVER E-BIKE, LLC FOR ITS NEGLIGENCE (EXCEPT GROSS NEGLIGENCE OR WILLFUL MISCONDUCT). I AM SIGNING THIS AGREEMENT VOLUNTARILY AND OF MY OWN FREE WILL.</p>
+        <p class="font-bold">I CONFIRM I HAVE HAD THE OPPORTUNITY TO ASK QUESTIONS ABOUT THIS AGREEMENT AND HAVE HAD THEM ANSWERED TO MY SATISFACTION.</p>
+    `;
+
+    const minorWaiverGlobalContent = `
+        <h3 class="text-lg font-semibold mb-2">Discover E-Bike, LLC</h3>
+        <p class="text-xs mb-1">109 N Oak St, Port Angeles, WA 98362</p>
+        <p class="text-xs mb-3">360.460.1218</p>
+        <p class="font-bold text-center mb-3">Parental/Guardian Consent, Indemnification, and Acknowledgment of Risks for Minor E-Bike Rider</p>
+        
+        <p class="font-bold text-red-600">NOTICE TO PARENT/LEGAL GUARDIAN: THIS AGREEMENT INCLUDES AN ACKNOWLEDGMENT OF RISKS, AN AGREEMENT TO SUPERVISE, AND AN INDEMNIFICATION. WHILE YOU ARE ACKNOWLEDGING RISKS ON BEHALF OF YOUR MINOR CHILD, WASHINGTON STATE LAW SIGNIFICANTLY LIMITS THE ABILITY OF A PARENT TO WAIVE A MINOR'S FUTURE CLAIM FOR NEGLIGENCE. THIS DOCUMENT DOES NOT AND CANNOT WAIVE THE MINOR'S RIGHT TO SUE FOR INJURIES CAUSED BY DISCOVER E-BIKE, LLC'S NEGLIGENCE. HOWEVER, BY SIGNING THIS DOCUMENT, YOU ARE ACCEPTING CERTAIN RESPONSIBILITIES AND LIABILITIES AS OUTLINED HEREIN.</p>
+        
+        <p>I, the undersigned Parent/Guardian, in consideration of Discover E-Bike, LLC ("Merchant") allowing the Minor(s) listed below to participate in E-Bike rental and related activities (the "Activity"):</p>
+
+        <h3>1. Acknowledgment of Inherent Risks for Minor:</h3>
+        <p>I understand and acknowledge that riding an E-Bike, like any cycling activity, involves inherent risks, dangers, and hazards that could result in <strong>PROPERTY DAMAGE, SERIOUS PERSONAL INJURY, DISABILITY, AND EVEN DEATH to the Minor.</strong> I have explained these risks to the Minor to the best of my ability, in an age-appropriate manner. These risks include, but are not limited to, those outlined in the Discover E-Bike, LLC E-Bike Rental Agreement, Express Assumption of Risk, Waiver of Liability, Indemnification, and Credit Card Authorization ("Adult Agreement"), which I have also signed (or will sign) and whose risk disclosures I incorporate herein by reference for the Activity undertaken by the Minor. (Parent/Guardian Initials Required Per Minor)</p>
+
+        <h3>2. Consent for Minor's Participation & Parental Supervision:</h3>
+        <p>I consent to the Minor's participation in the Activity. I represent that the Minor is in good physical health and capable of safely participating. I agree that <strong>I (or another responsible adult designated by me and communicated to Merchant) will supervise the Minor at all times during the Activity to ensure the Minor's safety and compliance with all rules and instructions.</strong> I acknowledge that Merchant is not providing childcare or direct supervision of the Minor beyond general operational oversight. (Parent/Guardian Initials Required Per Minor)</p>
+
+        <h3>3. Minor's Compliance & Responsibility for Minor's Actions:</h3>
+        <p>I agree to instruct the Minor to follow all safety rules, traffic laws, trail etiquette, and instructions from Merchant staff. I understand that I am responsible for the Minor's conduct and any damage or injury the Minor may cause to themselves, others, or property (including the rented E-Bike). (Parent/Guardian Initials Required Per Minor)</p>
+
+        <h3>4. Parental Indemnification and Assumption of Financial Responsibility:</h3>
+        <p><strong>To the fullest extent permitted by Washington State law, I, for myself, my spouse (if any), my heirs, assigns, and next of kin, agree to DEFEND, INDEMNIFY, AND HOLD HARMLESS Discover E-Bike, LLC, its members, officers, employees, agents, insurers, and assigns (the "Released Parties") from and against any and all claims, demands, actions, causes of action, liabilities, suits, judgments, losses, damages, costs, and expenses (INCLUDING REASONABLE ATTORNEYS' FEES AND COURT COSTS):</strong>
+        <ul>
+            <li>(a) Arising from any injury or damage to the Minor, or caused by the Minor to others or property, to the extent such claims are not based on the established legal negligence of the Released Parties that directly caused such injury or damage to the Minor.</li>
+            <li>(b) Which I (or any other parent/guardian of the Minor) may bring or assert on my own behalf (e.g., for medical expenses I incur for the Minor, loss of consortium, etc.) related to the Minor's participation in the Activity, even if such claims arise from the negligence of the Released Parties (excluding gross negligence or willful misconduct).</li>
+            <li>(c) Arising from any claims brought by or on behalf of the Minor, to the extent permitted by law, particularly where such claims arise from the Minor's own actions, failure to follow rules, or from the inherent risks of the activity not due to the Merchant's negligence.</li>
+        </ul>
+        <strong>I understand that this indemnification means I may be required to pay costs, including legal fees, incurred by Discover E-Bike, LLC, related to such claims.</strong> This indemnification is intended to be as broad and inclusive as permitted by the laws of the State of Washington. (Parent/Guardian Initials Required Per Minor)</p>
+
+        <h3>5. Authorization for Charges for Damage Caused by Minor:</h3>
+        <p>I acknowledge and agree that the credit card authorization provided in the Adult Agreement, which I have signed, extends to cover any charges for damage to, or loss or theft of, the E-Bike and accessories rented for or used by the Minor, as well as any late fees or other charges attributable to the Minor's rental, as outlined in the Adult Agreement. (Parent/Guardian Initials Required Per Minor)</p>
+
+        <h3>6. Helmet Agreement for Minor:</h3>
+        <p><strong>I AGREE THAT THE MINOR WILL WEAR A HELMET AT ALL TIMES WHILE RIDING THE E-BIKE.</strong> I understand this is a critical safety requirement. (Parent/Guardian Initials Required Per Minor)</p>
+
+        <h3>7. Emergency Medical Authorization:</h3>
+        <p>In the event of an injury or illness to the Minor during the Activity, if I am not reasonably available to be consulted, I authorize Discover E-Bike, LLC and its representatives to obtain necessary emergency medical treatment for the Minor, and I agree to be financially responsible for such treatment.</p>
+
+        <h3>8. No Waiver of Minor's Rights for Negligence:</h3>
+        <p>I understand that, in accordance with Washington State law, <strong>I am NOT releasing or waiving any claim the Minor may have for injuries sustained as a result of the actual negligence of Discover E-Bike, LLC.</strong> This agreement primarily addresses my own responsibilities, my own potential claims, and my agreement to indemnify Discover E-Bike, LLC under specific circumstances as outlined herein.</p>
+        
+        <p class="font-bold mt-3">I HAVE CAREFULLY READ THIS "PARENTAL/GUARDIAN CONSENT, INDEMNIFICATION, AND ACKNOWLEDGMENT OF RISKS FOR MINOR E-BIKE RIDER." I UNDERSTAND ITS TERMS AND THAT I AM GIVING UP CERTAIN RIGHTS FOR MYSELF AND AGREEING TO CERTAIN RESPONSIBILITIES AND POTENTIAL LIABILITIES. I SIGN THIS VOLUNTARILY AND OF MY OWN FREE WILL. I HAVE HAD THE OPPORTUNITY TO ASK QUESTIONS AND HAVE THEM ANSWERED.</p>
+    `;
+
+    document.getElementById('adultWaiverText').innerHTML = adultWaiverContent;
+    document.getElementById('minorWaiverTextGlobal').innerHTML = minorWaiverGlobalContent;
+
+
+    // --- PAGE NAVIGATION AND LOGIC ---
+    function showPage(pageNumber) {
+        document.querySelectorAll('.form-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        document.getElementById(`page${pageNumber}`).classList.add('active');
+        currentPage = pageNumber;
+        window.scrollTo(0,0); // Scroll to top on page change
+    }
+
+    function validatePage1() {
+        let isValid = true;
+        let errorMessage = "";
+        if (!document.getElementById('adultName').value) { errorMessage += "Adult Full Name is required.<br>"; isValid = false; }
+        if (!document.getElementById('adultPhone').value) { errorMessage += "Adult Phone Number is required.<br>"; isValid = false; }
+        if (!document.getElementById('adultEmail').value) { errorMessage += "Adult Email Address is required.<br>"; isValid = false; }
+        if (!document.getElementById('initialsHelmet').value) { errorMessage += "Initials for Helmet Use are required.<br>"; isValid = false; }
+        if (!document.getElementById('initialsAssumptionRisk').value) { errorMessage += "Initials for Assumption of Risk are required.<br>"; isValid = false; }
+        if (!document.getElementById('initialsWaiverLiability').value) { errorMessage += "Initials for Waiver of Liability are required.<br>"; isValid = false; }
+        if (!document.getElementById('initialsIndemnification').value) { errorMessage += "Initials for Indemnification are required.<br>"; isValid = false; }
+        if (!document.getElementById('initialsCCAuth').value) { errorMessage += "Initials for Credit Card Authorization are required.<br>"; isValid = false; }
+        if (!document.getElementById('agreeTermsAdult').checked) { errorMessage += "You must agree to the terms and conditions.<br>"; isValid = false; }
+        
+        document.getElementById('page1Error').innerHTML = errorMessage;
+        return isValid;
+    }
+
+    function goToPage2() {
+        if (!validatePage1()) return;
+
+        adultWaiverData = {
+            name: document.getElementById('adultName').value,
+            phone: document.getElementById('adultPhone').value,
+            localAddress: document.getElementById('adultLocalAddress').value,
+            email: document.getElementById('adultEmail').value,
+            initials: {
+                helmet: document.getElementById('initialsHelmet').value,
+                assumptionRisk: document.getElementById('initialsAssumptionRisk').value,
+                waiverLiability: document.getElementById('initialsWaiverLiability').value,
+                indemnification: document.getElementById('initialsIndemnification').value,
+                ccAuth: document.getElementById('initialsCCAuth').value,
+            },
+            agreedToTerms: document.getElementById('agreeTermsAdult').checked
+        };
+
+        const numMinors = parseInt(document.getElementById('numMinors').value);
+        if (numMinors > 0) {
+            generateMinorForms(numMinors);
+            document.getElementById('parentGuardianNameMinorPage').value = adultWaiverData.name; // Pre-fill parent name
+            showPage(2);
+        } else {
+            showPage(3); // Skip to payment if no minors
+        }
+    }
+    
+    function goBackToPage1() {
+        showPage(1);
+    }
+
+    function validatePage2() {
+        let isValid = true;
+        let errorMessage = "";
+        const numMinors = parseInt(document.getElementById('numMinors').value);
+
+        for (let i = 1; i <= numMinors; i++) {
+            if (!document.getElementById(`minorName${i}`).value) { errorMessage += `Minor ${i} Full Name is required.<br>`; isValid = false; }
+            if (!document.getElementById(`minorDOB${i}`).value) { errorMessage += `Minor ${i} Date of Birth is required.<br>`; isValid = false; }
+            if (!document.getElementById(`minorInitialsRisk${i}`).value) { errorMessage += `Minor ${i} Initials for Risk Acknowledgment are required.<br>`; isValid = false; }
+            if (!document.getElementById(`minorInitialsSupervision${i}`).value) { errorMessage += `Minor ${i} Initials for Supervision Consent are required.<br>`; isValid = false; }
+            if (!document.getElementById(`minorInitialsCompliance${i}`).value) { errorMessage += `Minor ${i} Initials for Compliance are required.<br>`; isValid = false; }
+            if (!document.getElementById(`minorInitialsIndemnity${i}`).value) { errorMessage += `Minor ${i} Initials for Indemnification are required.<br>`; isValid = false; }
+            if (!document.getElementById(`minorInitialsDamageAuth${i}`).value) { errorMessage += `Minor ${i} Initials for Damage Auth are required.<br>`; isValid = false; }
+            if (!document.getElementById(`minorInitialsHelmet${i}`).value) { errorMessage += `Minor ${i} Initials for Helmet Agreement are required.<br>`; isValid = false; }
+        }
+        if (!document.getElementById('parentGuardianRelationship').value) { errorMessage += `Parent/Guardian Relationship to Minor(s) is required.<br>`; isValid = false; }
+        if (!document.getElementById('agreeTermsMinor').checked) { errorMessage += `Parent/Guardian must agree to the terms for minors.<br>`; isValid = false; }
+        
+        document.getElementById('page2Error').innerHTML = errorMessage;
+        return isValid;
+    }
+
+
+    function goToPage3() {
+        const numMinors = parseInt(document.getElementById('numMinors').value);
+        if (numMinors > 0) { // Only validate page 2 if there were minors
+            if (!validatePage2()) return;
+            
+            minorWaiverData = []; // Reset before collecting
+            for (let i = 1; i <= numMinors; i++) {
+                minorWaiverData.push({
+                    minorNum: i,
+                    name: document.getElementById(`minorName${i}`).value,
+                    dob: document.getElementById(`minorDOB${i}`).value,
+                    initials: {
+                        risk: document.getElementById(`minorInitialsRisk${i}`).value,
+                        supervision: document.getElementById(`minorInitialsSupervision${i}`).value,
+                        compliance: document.getElementById(`minorInitialsCompliance${i}`).value,
+                        indemnity: document.getElementById(`minorInitialsIndemnity${i}`).value,
+                        damageAuth: document.getElementById(`minorInitialsDamageAuth${i}`).value,
+                        helmet: document.getElementById(`minorInitialsHelmet${i}`).value
+                    }
+                });
+            }
+            adultWaiverData.parentGuardianRelationship = document.getElementById('parentGuardianRelationship').value;
+            adultWaiverData.agreedToMinorTerms = document.getElementById('agreeTermsMinor').checked;
+        }
+        // Pre-fill cardholder name from adult waiver if available
+        if(adultWaiverData.name) {
+            document.getElementById('cardholderName').value = adultWaiverData.name;
+        }
+        showPage(3);
+    }
+
+    function goBackToPageOnPayment() {
+        const numMinors = parseInt(document.getElementById('numMinors').value);
+        if (numMinors > 0) {
+            showPage(2);
+        } else {
+            showPage(1);
+        }
+    }
+
+    function generateMinorForms(count) {
+        const container = document.getElementById('minorFormsContainer');
+        container.innerHTML = ''; // Clear previous forms
+        for (let i = 1; i <= count; i++) {
+            const formHtml = `
+                <div class="border p-4 rounded-md bg-gray-50">
+                    <h4 class="text-md font-semibold mb-3">Minor ${i} Details:</h4>
+                    <div class="mb-3">
+                        <label for="minorName${i}" class="font-semibold">Minor ${i} Full Name:</label>
+                        <input type="text" id="minorName${i}" class="input-field">
+                    </div>
+                    <div class="mb-3">
+                        <label for="minorDOB${i}" class="font-semibold">Minor ${i} Date of Birth:</label>
+                        <input type="date" id="minorDOB${i}" class="input-field">
+                    </div>
+                    <p class="text-sm font-medium mt-3 mb-1">Parent/Guardian Initials for Minor ${i}:</p>
+                    <div class="space-y-2 text-sm">
+                        <div><label for="minorInitialsRisk${i}" class="font-semibold">1. Acknowledgment of Inherent Risks:</label> <input type="text" id="minorInitialsRisk${i}" class="initials-box" maxlength="3"></div>
+                        <div><label for="minorInitialsSupervision${i}" class="font-semibold">2. Consent for Participation & Supervision:</label> <input type="text" id="minorInitialsSupervision${i}" class="initials-box" maxlength="3"></div>
+                        <div><label for="minorInitialsCompliance${i}" class="font-semibold">3. Minor's Compliance & Responsibility:</label> <input type="text" id="minorInitialsCompliance${i}" class="initials-box" maxlength="3"></div>
+                        <div><label for="minorInitialsIndemnity${i}" class="font-semibold">4. Parental Indemnification:</label> <input type="text" id="minorInitialsIndemnity${i}" class="initials-box" maxlength="3"></div>
+                        <div><label for="minorInitialsDamageAuth${i}" class="font-semibold">5. Authorization for Damage Charges:</label> <input type="text" id="minorInitialsDamageAuth${i}" class="initials-box" maxlength="3"></div>
+                        <div><label for="minorInitialsHelmet${i}" class="font-semibold">6. Helmet Agreement for Minor:</label> <input type="text" id="minorInitialsHelmet${i}" class="initials-box" maxlength="3"></div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += formHtml;
+        }
+    }
+
+    function toggleACHFields() {
+        const achFields = document.getElementById('achFields');
+        const toggleACHCheckbox = document.getElementById('toggleACH');
+        if (toggleACHCheckbox.checked) {
+            achFields.classList.remove('hidden');
+        } else {
+            achFields.classList.add('hidden');
+        }
+    }
+
+    function validatePaymentPage() {
+        let isValid = true;
+        let errorMessage = "";
+        const useACH = document.getElementById('toggleACH').checked;
+
+        if (!useACH) {
+            if (!document.getElementById('cardholderName').value) { errorMessage += "Cardholder Name is required.<br>"; isValid = false; }
+            if (!document.getElementById('cardNumber').value) { errorMessage += "Card Number is required.<br>"; isValid = false; }
+            // Basic Luhn check (simplified)
+            else if (!luhnCheck(document.getElementById('cardNumber').value.replace(/\s/g, ''))) { errorMessage += "Invalid Card Number.<br>"; isValid = false; }
+            if (!document.getElementById('expiryDate').value.match(/^(0[1-9]|1[0-2])\/?([0-9]{2})$/)) { errorMessage += "Expiry Date must be MM/YY.<br>"; isValid = false; }
+            if (!document.getElementById('cvv').value.match(/^\d{3,4}$/)) { errorMessage += "CVV must be 3 or 4 digits.<br>"; isValid = false; }
+            if (!document.getElementById('billingZip').value) { errorMessage += "Billing Zip Code is required.<br>"; isValid = false; }
+        } else {
+            if (!document.getElementById('achAccountHolderName').value) { errorMessage += "ACH Account Holder Name is required.<br>"; isValid = false; }
+            if (!document.getElementById('achBankName').value) { errorMessage += "ACH Bank Name is required.<br>"; isValid = false; }
+            if (!document.getElementById('achAccountType').value) { errorMessage += "ACH Account Type is required.<br>"; isValid = false; }
+            if (!document.getElementById('achRoutingNumber').value || !/^\d{9}$/.test(document.getElementById('achRoutingNumber').value)) { errorMessage += "Valid ACH Routing Number (9 digits) is required.<br>"; isValid = false; }
+            if (!document.getElementById('achAccountNumber').value || !/^\d{4,17}$/.test(document.getElementById('achAccountNumber').value)) { errorMessage += "Valid ACH Account Number is required.<br>"; isValid = false; }
+        }
+        document.getElementById('page3Error').innerHTML = errorMessage;
+        return isValid;
+    }
+
+    // Basic Luhn Algorithm for card validation (for demonstration)
+    function luhnCheck(val) {
+        let sum = 0;
+        let numDigits = val.length;
+        let parity = numDigits % 2;
+        for (let i = 0; i < numDigits; i++) {
+            let digit = parseInt(val.charAt(i));
+            if (i % 2 === parity) digit *= 2;
+            if (digit > 9) digit -= 9;
+            sum += digit;
+        }
+        return (sum % 10) === 0;
+    }
+
+
+    document.getElementById('cardNumber').addEventListener('input', function (e) {
+        // Basic BIN check simulation
+        const cardNumber = e.target.value.replace(/\s/g, '');
+        const cardTypeDiv = document.getElementById('cardType');
+        let type = "Unknown Card Type";
+
+        if (/^4[0-9]{5}/.test(cardNumber)) { type = "Visa"; } 
+        else if (/^5[1-5][0-9]{4}/.test(cardNumber) || /^2[2-7][0-9]{4}/.test(cardNumber)) { type = "Mastercard"; } 
+        else if (/^3[47][0-9]{4}/.test(cardNumber)) { type = "American Express"; } 
+        else if (/^6(?:011|5[0-9]{2})[0-9]{2}/.test(cardNumber)) { type = "Discover"; } 
+        else if (/^3(?:0[0-5]|[68][0-9])[0-9]{3}/.test(cardNumber)) { type = "Diners Club"; } 
+        else if (/^(?:2131|1800|35[0-9]{3})[0-9]{3}/.test(cardNumber)) { type = "JCB"; }
+
+        // Simulate Credit/Debit (this is highly simplified and not reliable for real use)
+        // Real BIN lists are extensive and map to specific issuers and card types (credit, debit, prepaid)
+        if (type !== "Unknown Card Type") {
+            const firstSix = cardNumber.substring(0, 6);
+            // Example: Some hypothetical BINs
+            if (["400000", "510000", "340000"].includes(firstSix.substring(0,min(6,firstSix.length)))) { // check if firstSix has length >=6
+                 type += " (likely Credit)";
+            } else if (["411111", "522222", "601100"].includes(firstSix.substring(0,min(6,firstSix.length)))) {
+                 type += " (likely Debit)";
+            }
+        }
+        cardTypeDiv.textContent = type;
+
+        // Add spaces for readability
+        e.target.value = cardNumber.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim();
+    });
+     function min(a, b) { return a < b ? a : b; }
+
+
+    function submitForm() {
+        if (!validatePaymentPage()) return;
+
+        const paymentDetails = {
+            useACH: document.getElementById('toggleACH').checked,
+            cardholderName: document.getElementById('cardholderName').value,
+            cardNumber: document.getElementById('cardNumber').value, // Store as entered, backend should handle masking
+            expiryDate: document.getElementById('expiryDate').value,
+            // CVV should NOT be stored persistently
+            billingZip: document.getElementById('billingZip').value,
+            ach: {
+                accountHolderName: document.getElementById('achAccountHolderName').value,
+                bankName: document.getElementById('achBankName').value,
+                accountType: document.getElementById('achAccountType').value,
+                routingNumber: document.getElementById('achRoutingNumber').value,
+                accountNumber: document.getElementById('achAccountNumber').value, // Store as entered
+            }
+        };
+
+        // --- !!! IMPORTANT: INTEGRATION POINT !!! ---
+        // 1. Collect all data: adultWaiverData, minorWaiverData, paymentDetails
+        // 2. Send this data SECURELY to your backend server.
+        // 3. Your backend server then:
+        //    a. Validates all data again.
+        //    b. Stores waiver information in your database.
+        //    c. Securely transmits payment details to iPosPays API.
+        //       - For credit cards, this often involves tokenization.
+        //       - For ACH, follow iPosPays specific ACH processing guidelines.
+        //    d. Handles the response from iPosPays (success/failure).
+        //    e. If payment is successful, finalize the reservation, send confirmation emails, etc.
+        //    f. If payment fails, display an appropriate error message to the user.
+
+        console.log("Form Data to be sent to backend:");
+        console.log("Adult Waiver:", adultWaiverData);
+        console.log("Minor Waivers:", minorWaiverData);
+        console.log("Payment Details:", paymentDetails);
+        
+        // Simulate successful submission for this mock-up
+        // In a real scenario, you would await the backend response here.
+        // For example:
+        // try {
+        //    const response = await fetch('/api/process-rental', {
+        //        method: 'POST',
+        //        headers: { 'Content-Type': 'application/json' },
+        //        body: JSON.stringify({ adultWaiverData, minorWaiverData, paymentDetails })
+        //    });
+        //    const result = await response.json();
+        //    if (result.success) {
+        //        showPage('confirmationPage'); 
+        //    } else {
+        //        document.getElementById('page3Error').innerHTML = "Payment failed: " + result.message;
+        //    }
+        // } catch (error) {
+        //    document.getElementById('page3Error').innerHTML = "An error occurred. Please try again.";
+        // }
+        
+        // For this mock-up, we'll simulate a delay then success.
+        document.getElementById('page3Error').innerHTML = "Processing payment...";
+        setTimeout(() => {
+            alert("Simulating payment processing... This is where iPosPays integration would occur on the backend.");
+            showPage('confirmationPage'); 
+        }, 2000);
+    }
+
+    // Initialize first page
+    showPage(1);
+
+</script>
+</body>
+</html>

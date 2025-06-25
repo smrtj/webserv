@@ -1,0 +1,93 @@
+/* /assets/smrt_pay/smrtpay.css */
+/* SMRT Payments Brand Greens */
+:root {
+  --smrt-green-main: #17a34a;
+  --smrt-green-dark: #12813a;
+  --smrt-green-light: #53d186;
+  --smrt-gray-bg: #f7f9fa;
+  --smrt-gray-border: #dde2e5;
+  --smrt-accent: #444;
+  --smrt-radius: 14px;
+  --smrt-font: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+.smrtpay-widget {
+  background: var(--smrt-gray-bg);
+  border-radius: var(--smrt-radius);
+  border: 1px solid var(--smrt-gray-border);
+  max-width: 480px;
+  margin: 1.5rem auto;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  box-shadow: 0 2px 16px rgba(30,60,40,0.08);
+  font-family: var(--smrt-font);
+  font-size: 1.08rem;
+}
+.smrtpay-widget label {
+  font-weight: 500;
+  display: block;
+  margin-top: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+.smrtpay-widget input, .smrtpay-widget select {
+  width: 100%;
+  padding: 0.6em;
+  border-radius: var(--smrt-radius);
+  border: 1px solid var(--smrt-gray-border);
+  font-size: 1.09em;
+  margin-bottom: 0.5em;
+}
+.smrtpay-widget button {
+  width: 100%;
+  background: var(--smrt-green-main);
+  color: #fff;
+  border: none;
+  border-radius: var(--smrt-radius);
+  padding: 0.7em 0;
+  font-size: 1.1em;
+  font-weight: 700;
+  margin-top: 1.3em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.smrtpay-widget button:hover,
+.smrtpay-widget button:focus {
+  background: var(--smrt-green-dark);
+}
+.smrtpay-widget .smrtpay-error {
+  color: #b9002e;
+  margin-top: 0.5em;
+  margin-bottom: 0.8em;
+  font-weight: 600;
+}
+.smrtpay-widget .smrtpay-success {
+  color: var(--smrt-green-main);
+  font-weight: 600;
+  margin-top: 0.8em;
+}
+.smrtpay-widget .smrtpay-brand-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.5em;
+}
+.smrtpay-widget .smrtpay-brand-bar .smrt-logo {
+  height: 30px;
+}
+.smrtpay-widget .smrtpay-brand-bar .smrt-title {
+  font-size: 1.28em;
+  font-weight: 800;
+  color: var(--smrt-green-dark);
+}
+.smrtpay-widget .smrtpay-elevenlabs-toggle {
+  display: flex; align-items: center;
+  margin-top: 1.4em;
+  gap: 0.8em;
+  font-size: 1em;
+}
+/* Responsive (Tablet-first) */
+@media (max-width: 768px) {
+  .smrtpay-widget {
+    max-width: 99vw;
+    padding: 1.1rem 0.6rem 1rem 0.6rem;
+    font-size: 1.0rem;
+  }
+}
+
