@@ -1,0 +1,34 @@
+.homepage {
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+.header {
+  padding: 20px;
+  background-color: #E0F7E9;
+}
+
+.header h1 {
+  color: #27AE60;
+}
+
+.culture-carousel {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.culture-card {
+  padding: 15px;
+  margin: 10px;
+  background-color: #27AE60;
+  color: #fff;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.culture-card:hover {
+  transform: translateY(-5px);
+}

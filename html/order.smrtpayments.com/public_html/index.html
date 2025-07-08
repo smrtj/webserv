@@ -2,11 +2,172 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>order.smrtpayments.com</title>
+  <title>SMRT Payments Hardware Order Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .smrt-logo { max-height: 60px; }
+    .qty-input { width: 60px; }
+    .table-fixed th, .table-fixed td { white-space: nowrap; }
+  </style>
 </head>
-<body>
-  <h1>Welcome to order.smrtpayments.com</h1>
-  <p>This site is served by SMRT WebServ.</p>
-  <footer><em><!-- Deployed with ❤️ by KOTE | Voice powered by ElevenLabs --></em></footer>
+<body class="bg-gray-50 p-10">
+  <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8">
+    <div class="flex items-center justify-between mb-6">
+      <img src="https://placehold.co/250x60/00a099/fff?text=SMRT+Payments+Logo" alt="SMRT Logo" class="smrt-logo">
+      <div class="text-right">
+        <h1 class="text-2xl font-bold text-slate-800">Hardware Order Form</h1>
+        <div class="text-sm text-gray-500">For ISOs & partners</div>
+      </div>
+    </div>
+
+    <form id="orderForm" class="space-y-4">
+      <table class="table-fixed w-full border text-sm">
+        <thead>
+          <tr class="bg-teal-50 border-b">
+            <th class="w-2/6 py-2 px-2 font-semibold text-left">Product</th>
+            <th class="w-1/12 py-2 px-2 font-semibold">Type</th>
+            <th class="w-2/6 py-2 px-2 font-semibold text-left">Description</th>
+            <th class="w-1/12 py-2 px-2 font-semibold text-right">Unit Price</th>
+            <th class="w-1/12 py-2 px-2 font-semibold text-center">Qty</th>
+          </tr>
+        </thead>
+        <tbody id="productsTbody"></tbody>
+      </table>
+
+      <div class="flex justify-end items-center gap-6 mt-4">
+        <div class="font-semibold text-lg">Total: $<span id="grandTotal">0.00</span></div>
+      </div>
+      
+      <div class="flex gap-4 mt-6">
+        <div class="flex-1">
+          <label class="block font-semibold mb-1">Your Name:</label>
+          <input type="text" required name="customerName" class="w-full p-2 border rounded">
+        </div>
+        <div class="flex-1">
+          <label class="block font-semibold mb-1">Email:</label>
+          <input type="email" required name="customerEmail" class="w-full p-2 border rounded">
+        </div>
+      </div>
+      <div>
+        <label class="block font-semibold mb-1">Notes / Special Instructions:</label>
+        <textarea name="orderNotes" class="w-full p-2 border rounded"></textarea>
+      </div>
+      <button type="submit" class="w-full py-3 mt-4 bg-teal-700 hover:bg-teal-900 text-white font-semibold rounded shadow transition">
+        Submit Order & Proceed to Payment
+      </button>
+    </form>
+    <div id="orderConfirmation" class="hidden text-center mt-10">
+      <h2 class="text-xl font-semibold text-green-600 mb-3">Order Received!</h2>
+      <p class="text-gray-700">Thank you for your order.<br>Check your inbox for a confirmation & payment link.</p>
+    </div>
+  </div>
+  <script>
+    // --- PRODUCTS LIST ---
+    const products = [
+      {name: "Aloha PX15 Quick Service Pro", type: "Bundle", desc: "PX15, EMV, Customer Display, Cash Drawer, Printer", price: 2500},
+      {name: "Aloha PX10 Table Service Core", type: "Bundle", desc: "PX10, EMV, Customer Display, Cash Drawer, Printer", price: 2200},
+      {name: "Silver PX15 Essentials Complete", type: "Bundle", desc: "PX15, EMV, Customer Display, Cash Drawer, Printer", price: 2400},
+      {name: "Silver PX10 Essentials Starter", type: "Bundle", desc: "PX10, EMV, Customer Display, Cash Drawer, Printer", price: 2000},
+      {name: "Aloha PX15 Full-Service Deluxe", type: "Bundle", desc: "PX15, EMV, Customer Display, Cash Drawer, Printer, KDS", price: 2800},
+      {name: "Handheld Axiom EX8000 Kit 2", type: "Item", desc: "Includes Mobile Protector Case and Single Slot Charger", price: 900},
+      {name: "Handheld Axiom EX8000", type: "Item", desc: "w/Mobile Protector Case", price: 825},
+      {name: "Bixolon SRP-S300L0EK Sticky Printer Kit", type: "Item", desc: "N/a", price: 500},
+      {name: "Countertop Receipt Printer for NCR Silver", type: "Item", desc: "Bixolon SRP 350II", price: 400},
+      {name: "Kitchen Impact Printer", type: "Item", desc: "Bixolon SRP-275III", price: 400},
+      {name: "NCR Silver 2D Scanner", type: "Item", desc: "Zebra DS9308 - Essential Configuration", price: 325},
+      {name: "Aloha Cloud 2D Scanner", type: "Item", desc: "Zebra DS9308 - PRO Configuration", price: 325},
+      {name: "Mettler Toledo Ariva S-17", type: "Item", desc: "240oz Scale Adapter Kit", price: 200},
+      {name: "Cash Drawer MS", type: "Item", desc: "16in, 5 Bill 5 Coin", price: 150},
+      {name: "Cash Drawer w/Till", type: "Item", desc: "13\"", price: 150},
+      {name: "Cash Drawer Till MS", type: "Item", desc: "16in, 5 Bill 5 Coin", price: 50},
+      {name: "Cash Drawer Under Counter Mounting Bracket", type: "Item", desc: "M-S 16\"", price: 50},
+      {name: "Cash Drawer Under Counter Mounting Bracket", type: "Item", desc: "APG 13\"", price: 50},
+      {name: "Kitchen Display System (KDS)", type: "Item", desc: "N/a", price: 525},
+    ];
+
+    // Render products
+    function renderProducts() {
+      const tbody = document.getElementById('productsTbody');
+      tbody.innerHTML = '';
+      products.forEach((p, i) => {
+        tbody.innerHTML += `
+          <tr class="border-b hover:bg-gray-50">
+            <td class="py-1 px-2">${p.name}</td>
+            <td class="py-1 px-2">${p.type}</td>
+            <td class="py-1 px-2">${p.desc}</td>
+            <td class="py-1 px-2 text-right">$${p.price.toLocaleString()}</td>
+            <td class="py-1 px-2 text-center">
+              <input type="number" min="0" value="0" name="qty${i}" class="qty-input border text-center rounded" onchange="updateTotal()">
+            </td>
+          </tr>`;
+      });
+    }
+    renderProducts();
+
+    // Calculate total
+    function updateTotal() {
+      let total = 0;
+      products.forEach((p, i) => {
+        const qty = parseInt(document.querySelector(`[name=qty${i}]`).value || 0, 10);
+        if (qty > 0) total += qty * p.price;
+      });
+      document.getElementById('grandTotal').innerText = total.toLocaleString(undefined, {minimumFractionDigits:2});
+    }
+    window.updateTotal = updateTotal;
+
+    // --- FORM SUBMIT / SMARTPAY APP INTEGRATION ---
+    document.getElementById('orderForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Collect selected items
+      const items = products.map((p, i) => {
+        const qty = parseInt(document.querySelector(`[name=qty${i}]`).value || 0, 10);
+        return qty > 0 ? { product: p.name, qty, unit: p.price, total: qty*p.price } : null;
+      }).filter(Boolean);
+
+      if (items.length === 0) {
+        alert("Please select at least one item to order.");
+        return;
+      }
+
+      // Gather buyer info
+      const order = {
+        customerName: this.customerName.value,
+        customerEmail: this.customerEmail.value,
+        orderNotes: this.orderNotes.value,
+        items,
+        grandTotal: document.getElementById('grandTotal').innerText
+      };
+
+      // --- INTEGRATE WITH SMARTPAY APP HERE ---
+      // Option 1: Post to your backend API (e.g. /api/new-order)
+      // Option 2: Pass `order` to the SMRTPay.js widget/init code (if you have a modal/iframe workflow)
+      // Option 3: Open a SmartPay payment window with grandTotal, then save order after payment
+      //
+      // Example (option 1):
+      // fetch('/api/smartpay/order', {
+      //   method: 'POST',
+      //   headers: {'Content-Type': 'application/json'},
+      //   body: JSON.stringify(order)
+      // }).then(resp => resp.json()).then(result => {
+      //   if(result.success){
+      //     document.getElementById('orderForm').classList.add('hidden');
+      //     document.getElementById('orderConfirmation').classList.remove('hidden');
+      //   } else {
+      //     alert("Order failed: " + result.message);
+      //   }
+      // });
+
+      // DEMO: show confirmation (replace with real logic above)
+      this.classList.add('hidden');
+      document.getElementById('orderConfirmation').classList.remove('hidden');
+      console.log("ORDER SENT:", order);
+
+      // Optionally, launch SmartPay widget/payment window here with order.grandTotal and metadata
+    });
+  </script>
 </body>
 </html>
+
