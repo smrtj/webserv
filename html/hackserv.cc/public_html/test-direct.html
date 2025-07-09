@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Test - Assets Should Appear</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f0f0f0;
+            min-height: 100vh;
+        }
+        .content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .test-info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Direct Asset Test</h1>
+        <p>This page should show:</p>
+        <ul>
+            <li><strong>CTO Signature</strong> - Bottom right corner</li>
+            <li><strong>ElevenLabs Widget</strong> - Top center</li>
+        </ul>
+        
+        <div class="test-info">
+            <strong>Look for:</strong><br>
+            • A small "CTO Signature" text in the bottom-right corner<br>
+            • An ElevenLabs widget container in the top-center<br>
+            • Console messages confirming injection<br>
+        </div>
+        
+        <p>This is a direct test without any external dependencies. The assets should appear immediately when the page loads.</p>
+        
+        <p>If you don't see them, check the browser console for error messages.</p>
+    </div>
+
+    <script>
+        // Direct implementation - no external files needed
+        (function() {
+            'use strict';
+            
+            console.log('Starting direct asset test...');
+            
+            // Create CTO signature with actual image
+            const signature = document.createElement('img');
+            signature.id = 'cto-signature';
+            signature.src = '/assets/cto.sig.png';
+            signature.style.cssText = `
+                position: fixed !important;
+                bottom: 20px !important;
+                right: 20px !important;
+                z-index: 99999 !important;
+                pointer-events: none !important;
+                opacity: 0.8 !important;
+                max-width: 100px !important;
+                max-height: 50px !important;
+                display: block !important;
+            `;
+            
+            signature.onerror = function() {
+                console.warn('❌ CTO signature image failed to load, using fallback');
+                // Create fallback element
+                const fallback = document.createElement('div');
+                fallback.id = 'cto-signature-fallback';
+                fallback.style.cssText = `
+                    position: fixed !important;
+                    bottom: 20px !important;
+                    right: 20px !important;
+                    z-index: 99999 !important;
+                    pointer-events: none !important;
+                    opacity: 0.8 !important;
+                    background: rgba(255,255,255,0.9) !important;
+                    padding: 5px 10px !important;
+                    border: 1px solid #ccc !important;
+                    border-radius: 3px !important;
+                    font-size: 12px !important;
+                    color: #666 !important;
+                `;
+                fallback.textContent = 'CTO Signature';
+                try {
+                    document.body.removeChild(signature);
+                } catch(e) {
+                    console.log('Signature already removed');
+                }
+                document.body.appendChild(fallback);
+            };
+            
+            signature.onload = function() {
+                console.log('✅ CTO signature image loaded successfully');
+            };
+            
+            document.body.appendChild(signature);
+            console.log('✅ CTO signature element created and added to DOM');
+            
+            // Create ElevenLabs widget container
+            const container = document.createElement('div');
+            container.id = 'elevenlabs-widget-container';
+            container.style.cssText = `
+                position: fixed !important;
+                top: 20px !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                z-index: 99998 !important;
+                pointer-events: auto !important;
+                min-width: 300px !important;
+                min-height: 400px !important;
+                display: block !important;
+            `;
+            
+            // Load ElevenLabs script and create actual widget
+            const script = document.createElement('script');
+            script.src = 'https://unpkg.com/@elevenlabs/convai-widget-embed';
+            script.async = true;
+            script.type = 'text/javascript';
+            
+            script.onload = function() {
+                console.log('✅ ElevenLabs widget script loaded successfully');
+                
+                // Create the actual widget element
+                const widget = document.createElement('elevenlabs-convai');
+                widget.setAttribute('agent-id', 'agent_01jwhwer0pfgqv9r6y6r0gpmsa');
+                
+                // Give the widget proper dimensions
+                widget.style.cssText = `
+                    width: 300px !important;
+                    height: 400px !important;
+                    display: block !important;
+                `;
+                
+                container.appendChild(widget);
+                
+                console.log('✅ ElevenLabs widget created with real agent-id and proper sizing');
+            };
+            
+            script.onerror = function() {
+                console.warn('❌ ElevenLabs widget script failed to load, using fallback');
+                container.innerHTML = '<div style="padding: 10px; background: rgba(255,255,255,0.9); border: 1px solid #ccc; border-radius: 5px; font-size: 12px; color: #666;">ElevenLabs Widget (Script Failed)</div>';
+            };
+            
+            document.head.appendChild(script);
+            document.body.appendChild(container);
+            console.log('✅ ElevenLabs widget container created and script loading...');
+            
+            // Persistence mechanism - check every 2 seconds if elements still exist
+            setInterval(function() {
+                const ctoElement = document.getElementById('cto-signature') || document.getElementById('cto-signature-fallback');
+                const elevenLabsElement = document.getElementById('elevenlabs-widget-container');
+                
+                if (!ctoElement || !document.body.contains(ctoElement)) {
+                    console.warn('🔄 CTO signature disappeared, re-adding...');
+                    const newSignature = document.createElement('img');
+                    newSignature.id = 'cto-signature';
+                    newSignature.src = '/assets/cto.sig.png';
+                    newSignature.style.cssText = `
+                        position: fixed !important;
+                        bottom: 20px !important;
+                        right: 20px !important;
+                        z-index: 99999 !important;
+                        pointer-events: none !important;
+                        opacity: 0.8 !important;
+                        max-width: 100px !important;
+                        max-height: 50px !important;
+                        display: block !important;
+                    `;
+                    document.body.appendChild(newSignature);
+                }
+                
+                if (!elevenLabsElement || !document.body.contains(elevenLabsElement)) {
+                    console.warn('🔄 ElevenLabs widget disappeared, re-adding...');
+                    const newContainer = document.createElement('div');
+                    newContainer.id = 'elevenlabs-widget-container';
+                    newContainer.style.cssText = `
+                        position: fixed !important;
+                        top: 20px !important;
+                        left: 50% !important;
+                        transform: translateX(-50%) !important;
+                        z-index: 99998 !important;
+                        pointer-events: auto !important;
+                        min-width: 300px !important;
+                        min-height: 400px !important;
+                        display: block !important;
+                    `;
+                    
+                    const newWidget = document.createElement('elevenlabs-convai');
+                    newWidget.setAttribute('agent-id', 'agent_01jwhwer0pfgqv9r6y6r0gpmsa');
+                    newWidget.style.cssText = `
+                        width: 300px !important;
+                        height: 400px !important;
+                        display: block !important;
+                    `;
+                    
+                    newContainer.appendChild(newWidget);
+                    document.body.appendChild(newContainer);
+                }
+            }, 2000);
+            
+        })();
+    </script>
+</body>
+</html>
